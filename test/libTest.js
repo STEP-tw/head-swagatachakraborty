@@ -68,17 +68,17 @@ describe('fetchNCharacters', function() {
   let content = 'abcd\ndef\nghi\njkl';
 
   it('should return empty string if the number of character to fetch is 0.', function() {
-    assert.deepEqual(fetchNCharacters(0, content), '');
+    assert.deepEqual(fetchNCharacters(content, 0), '');
   })
 
   it('should return content of provided number of characters', function() {
     let expectedOutput = 'abc';
-    assert.deepEqual(fetchNCharacters(3, content), expectedOutput);
+    assert.deepEqual(fetchNCharacters(content, 3), expectedOutput);
   })
 
   it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
     let expectedOutput = 'abcd\nd';
-    assert.deepEqual(fetchNCharacters(6, content), expectedOutput);
+    assert.deepEqual(fetchNCharacters(content, 6), expectedOutput);
   })
 })
 

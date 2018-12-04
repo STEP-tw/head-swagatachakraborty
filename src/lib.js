@@ -17,7 +17,7 @@ const fetchNLines = function(content, n=10) {
   return content.split('\n').slice(0, n).join('\n');
 }
 
-const fetchNCharacters = function(n, content) {
+const fetchNCharacters = function(content, n) {
   return content.split('').slice(0,n).join('');
 }
 
