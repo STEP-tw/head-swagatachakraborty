@@ -7,6 +7,7 @@ const { createHeading,
         extractLength,
         getFilterFunction,
         extractFiles,
+        fetchContents,
         extractDetails } = require('../src/lib.js'); 
 
 const { apply } = require('../src/util.js'); 
@@ -55,18 +56,13 @@ describe('formatContents', function() {
 describe('fetchNLines', function() {
   let content = 'abcd\ndef\nghi\njFkl\n5\n6\n7\n8\n9\n10\n11';
 
-  it('should return 10 lines of the content when number of line is not specified.', function() {
-    let expectedOutput = 'abcd\ndef\nghi\njFkl\n5\n6\n7\n8\n9\n10';
-    assert.deepEqual(fetchNLines(content), expectedOutput);
-  })
-
   it('should return empty string if the number of line to fetch is 0.', function() {
-    assert.deepEqual(fetchNLines(content, 0), '');
+    assert.deepEqual(fetchNLines(0, content), '');
   })
 
   it('should return content of provided number of lines', function() {
     let expectedOutput = 'abcd\ndef\nghi';
-    assert.deepEqual(fetchNLines(content, 3), expectedOutput);
+    assert.deepEqual(fetchNLines(3, content), expectedOutput);
   })
 })
 
@@ -74,17 +70,17 @@ describe('fetchNCharacters', function() {
   let content = 'abcd\ndef\nghi\njkl';
 
   it('should return empty string if the number of character to fetch is 0.', function() {
-    assert.deepEqual(fetchNCharacters(content, 0), '');
+    assert.deepEqual(fetchNCharacters(0, content), '');
   })
 
   it('should return content of provided number of characters', function() {
     let expectedOutput = 'abc';
-    assert.deepEqual(fetchNCharacters(content, 3), expectedOutput);
+    assert.deepEqual(fetchNCharacters(3, content), expectedOutput);
   })
 
   it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
     let expectedOutput = 'abcd\nd';
-    assert.deepEqual(fetchNCharacters(content, 6), expectedOutput);
+    assert.deepEqual(fetchNCharacters(6, content), expectedOutput);
   })
 })
 
@@ -165,5 +161,19 @@ describe('extractDetails return object of all required details from the provided
                            length : 10,
                            files : ['f1', 'f2'] };
     assert.deepEqual(extractDetails(input), expectedOutput);
+  })
+})
+
+describe('fetchContents', function() {
+  it('should fetching the required lines content from the contents, when fetchNLines is passed. ', function() {
+    let contents = ['abcd\nmnop\nqrst', '123\n456'];
+    let expectedOutput = ['abcd\nmnop', '123\n456']
+    assert.deepEqual(fetchContents(fetchNLines, contents, 2), expectedOutput);
+  })
+
+  it('should fetching the required character content from the contents, when fetchNCharacters is passed. ', function() {
+    let contents = ['abcd\nmnop\nqrst', '123\n456'];
+    let expectedOutput = ['ab', '12']
+    assert.deepEqual(fetchContents(fetchNCharacters, contents, 2), expectedOutput);
   })
 })

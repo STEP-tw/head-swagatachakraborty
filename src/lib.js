@@ -13,12 +13,16 @@ const formatContents = function(contents, files) {
   return contents.map( addHeading.bind(null, files) ).join('\n\n');
 }
 
-const fetchNLines = function(content, n=10) {
+const fetchNLines = function(n, content) {
   return content.split('\n').slice(0, n).join('\n');
 }
 
-const fetchNCharacters = function(content, n) {
+const fetchNCharacters = function(n, content) {
   return content.split('').slice(0,n).join('');
+}
+
+const fetchContents = function( filterContents, contents, length ) {
+  return contents.map( filterContents.bind(null, length) );
 }
 
 const extractDetails = function(details) {
@@ -58,4 +62,5 @@ module.exports = { createHeading,
                    extractLength,
                    getFilterFunction,
                    extractDetails,
+                   fetchContents,
                    extractFiles };
