@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { createHeading,
-        addHeading } = require('../src/lib.js'); 
+        addHeading,
+        formatContents } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -23,6 +24,23 @@ describe('addHeading', function() {
   it('should return only heading followed by a new line when the file body does not contain any text', function() {
     let expectedOutput = '==> file2 <==\n';
     assert.deepEqual(addHeading(headings, ''), expectedOutput);
+  })
+})
+
+describe('formatContents', function() {
+
+  it('should return the contens if there is only one file', function() {
+    let files = ['file1'];
+    let contents = ['abcd'];
+    let expectedOutput = contents.join();
+    assert.deepEqual(formatContents(contents, files), expectedOutput);
+  })
+
+  it('should add headings as file names with the contents of respected files when there is multiple files ', function() {
+    let files = ['file1', 'file2'];
+    let contents = ['abcd', 'efgh'];
+    let expectedOutput = "==> file1 <==\nabcd\n==> file2 <==\nefgh";
+    assert.deepEqual(formatContents(contents, files), expectedOutput);
   })
 })
 
