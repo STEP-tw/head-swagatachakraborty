@@ -1,7 +1,8 @@
 const assert = require('assert');
 const { createHeading,
         addHeading,
-        formatContents } = require('../src/lib.js'); 
+        formatContents,
+        fetchNLines } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -43,4 +44,18 @@ describe('formatContents', function() {
     assert.deepEqual(formatContents(contents, files), expectedOutput);
   })
 })
+
+describe('fetchNLines', function() {
+  let content = 'abcd\ndef\nghi\njkl';
+
+  it('should return empty string if the number of line to fetch is 0.', function() {
+    assert.deepEqual(fetchNLines(0, content), '');
+  })
+
+  it('should return content of provided number of lines', function() {
+    let expectedOutput = 'abcd\ndef\nghi';
+    assert.deepEqual(fetchNLines(3, content), expectedOutput);
+  })
+})
+
 

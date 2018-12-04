@@ -13,6 +13,11 @@ const formatContents = function(contents, files) {
   return contents.map( addHeading.bind(null, files) ).join('\n\n');
 }
 
+const fetchNLines = function(n, content ) {
+  return content.split('\n').slice(0, n).join('\n');
+}
+
 module.exports = { createHeading,
                    addHeading,
-                   formatContents };
+                   formatContents,
+                   fetchNLines };
