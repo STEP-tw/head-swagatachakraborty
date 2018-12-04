@@ -3,7 +3,8 @@ const { createHeading,
         addHeading,
         formatContents,
         fetchNLines,
-        fetchNCharacters } = require('../src/lib.js'); 
+        fetchNCharacters,
+        extractLength } = require('../src/lib.js'); 
 
 const { apply } = require('../src/util.js'); 
 
@@ -87,5 +88,19 @@ describe('fetchNCharacters', function() {
 describe('apply', function() {
   it('should return modified list after applying the function over the list.', function() {
     assert.deepEqual(apply(x => x+1, [1, 2]), [2, 3]);
+  })
+})
+
+describe('extractLength', function() {
+  it('should return length when it is passed as the 1st element of the input array', function() {
+    assert.deepEqual(extractLength(['-n4', 'file1']), 4);
+  })
+
+  it('should return length when it is passed as the 2st element of the input array', function() {
+    assert.deepEqual(extractLength(['-c', '5']), 5);
+  })
+
+  it('should return 10 when no length is provided', function() {
+    assert.deepEqual(extractLength(['file1', 'file2']), 10);
   })
 })

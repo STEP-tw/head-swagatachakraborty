@@ -21,8 +21,17 @@ const fetchNCharacters = function(content, n) {
   return content.split('').slice(0,n).join('');
 }
 
+const extractLength = function(details) {
+  if( !details[0].match(/^-/) ) return 10;
+  if( details[0].match(/[0-9]/g) ) {
+    return +details[0].match(/[0-9]/g).join("");
+  } 
+  return +details[1].match(/[0-9]/g).join("");
+}
+
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
                    fetchNLines,
-                   fetchNCharacters };
+                   fetchNCharacters,
+                   extractLength };
