@@ -3,8 +3,9 @@ const { createHeading,
         addHeading,
         formatContents,
         fetchNLines,
-        fetchNCharacters,
-        apply } = require('../src/lib.js'); 
+        fetchNCharacters } = require('../src/lib.js'); 
+
+const { apply } = require('../src/util.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {

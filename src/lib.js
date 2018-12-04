@@ -21,13 +21,8 @@ const fetchNCharacters = function(content, n) {
   return content.split('').slice(0,n).join('');
 }
 
-const apply = function(functionToApply, list) {
-  return list.map(functionToApply);
-}
-
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
                    fetchNLines,
-                   fetchNCharacters,
-                   apply };
+                   fetchNCharacters };
