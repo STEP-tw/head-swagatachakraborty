@@ -39,7 +39,7 @@ describe('formatContents', function() {
   it('should add headings as file names with the contents of respected files when there is multiple files ', function() {
     let files = ['file1', 'file2'];
     let contents = ['abcd', 'efgh'];
-    let expectedOutput = "==> file1 <==\nabcd\n==> file2 <==\nefgh";
+    let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
     assert.deepEqual(formatContents(contents, files), expectedOutput);
   })
 })
