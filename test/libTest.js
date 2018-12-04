@@ -47,15 +47,20 @@ describe('formatContents', function() {
 })
 
 describe('fetchNLines', function() {
-  let content = 'abcd\ndef\nghi\njkl';
+  let content = 'abcd\ndef\nghi\njFkl\n5\n6\n7\n8\n9\n10\n11';
+
+  it('should return 10 lines of the content when number of line is not specified.', function() {
+    let expectedOutput = 'abcd\ndef\nghi\njFkl\n5\n6\n7\n8\n9\n10';
+    assert.deepEqual(fetchNLines(content), expectedOutput);
+  })
 
   it('should return empty string if the number of line to fetch is 0.', function() {
-    assert.deepEqual(fetchNLines(0, content), '');
+    assert.deepEqual(fetchNLines(content, 0), '');
   })
 
   it('should return content of provided number of lines', function() {
     let expectedOutput = 'abcd\ndef\nghi';
-    assert.deepEqual(fetchNLines(3, content), expectedOutput);
+    assert.deepEqual(fetchNLines(content, 3), expectedOutput);
   })
 })
 

@@ -13,7 +13,7 @@ const formatContents = function(contents, files) {
   return contents.map( addHeading.bind(null, files) ).join('\n\n');
 }
 
-const fetchNLines = function(n, content ) {
+const fetchNLines = function(content, n=10) {
   return content.split('\n').slice(0, n).join('\n');
 }
 
