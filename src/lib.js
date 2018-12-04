@@ -29,9 +29,14 @@ const extractLength = function(details) {
   return +details[1].match(/[0-9]/g).join("");
 }
 
+const getFilterFunction = function(type) {
+  return type.match(/-c/) ? fetchNCharacters : fetchNLines;
+}
+
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
                    fetchNLines,
                    fetchNCharacters,
-                   extractLength };
+                   extractLength,
+                   getFilterFunction };

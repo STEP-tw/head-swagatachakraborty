@@ -4,7 +4,8 @@ const { createHeading,
         formatContents,
         fetchNLines,
         fetchNCharacters,
-        extractLength } = require('../src/lib.js'); 
+        extractLength,
+        getFilterFunction } = require('../src/lib.js'); 
 
 const { apply } = require('../src/util.js'); 
 
@@ -104,3 +105,18 @@ describe('extractLength', function() {
     assert.deepEqual(extractLength(['file1', 'file2']), 10);
   })
 })
+
+describe('getFilterFunction', function() {
+  it('should return fetchNLines() when input contain \'-n\'.', function() {
+    assert.deepEqual(getFilterFunction('-n4'), fetchNLines);
+  })
+
+  it('should return fetchNCharacters() when input contain \'-c\'.', function() {
+    assert.deepEqual(getFilterFunction('-c'), fetchNCharacters);
+  })
+
+  it('should return fetchNLines() if it contain any other input than \'-c\' or \'-n\' ', function() {
+    assert.deepEqual(getFilterFunction('-p'), fetchNLines);
+  })
+})
+
