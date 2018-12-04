@@ -3,7 +3,8 @@ const { createHeading,
         addHeading,
         formatContents,
         fetchNLines,
-        fetchNCharacters } = require('../src/lib.js'); 
+        fetchNCharacters,
+        apply } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -82,3 +83,8 @@ describe('fetchNCharacters', function() {
   })
 })
 
+describe('apply', function() {
+  it('should return modified list after applying the function over the list.', function() {
+    assert.deepEqual(apply(x => x+1, [1, 2]), [2, 3]);
+  })
+})
