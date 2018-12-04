@@ -5,7 +5,8 @@ const { createHeading,
         fetchNLines,
         fetchNCharacters,
         extractLength,
-        getFilterFunction } = require('../src/lib.js'); 
+        getFilterFunction,
+        extractFiles } = require('../src/lib.js'); 
 
 const { apply } = require('../src/util.js'); 
 
@@ -120,3 +121,22 @@ describe('getFilterFunction', function() {
   })
 })
 
+describe('extractFiles', function() {
+  it('should return only file names when there is 2 other arguments at begining before file names.', function() {
+    let input = [ '-n', '5', 'f1', 'f2' ];
+    let expectedOutput = ['f1', 'f2'];
+    assert.deepEqual(extractFiles(input), expectedOutput);
+  })
+
+  it('should return only file names when there is 1 other arguments at begining file names.', function() {
+    let input = [ '-n5', 'f1', 'f2' ];
+    let expectedOutput = ['f1', 'f2'];
+    assert.deepEqual(extractFiles(input), expectedOutput);
+  })
+
+  it('should return only file names when there no other arguments at begining file names.', function() {
+    let input = [ 'f1', 'f2' ];
+    let expectedOutput = ['f1', 'f2'];
+    assert.deepEqual(extractFiles(input), expectedOutput);
+  })
+})

@@ -33,10 +33,21 @@ const getFilterFunction = function(type) {
   return type.match(/-c/) ? fetchNCharacters : fetchNLines;
 }
 
+const extractFiles = function(details) {
+  if( details[0].match(/^-/) && details[0].match(/[0-9]/) ) {
+    return details.slice(1);
+  }
+  if( details[0].match(/^-/) && !details[0].match(/[0-9]/) ) {
+    return details.slice(2);
+  }
+  return details;
+}
+
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
                    fetchNLines,
                    fetchNCharacters,
                    extractLength,
-                   getFilterFunction };
+                   getFilterFunction,
+                   extractFiles };
