@@ -17,7 +17,12 @@ const fetchNLines = function(n, content ) {
   return content.split('\n').slice(0, n).join('\n');
 }
 
+const fetchNCharacters = function(n, content) {
+  return content.split('').slice(0,n).join('');
+}
+
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
-                   fetchNLines };
+                   fetchNLines,
+                   fetchNCharacters };

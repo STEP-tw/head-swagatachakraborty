@@ -2,7 +2,8 @@ const assert = require('assert');
 const { createHeading,
         addHeading,
         formatContents,
-        fetchNLines } = require('../src/lib.js'); 
+        fetchNLines,
+        fetchNCharacters } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -58,4 +59,21 @@ describe('fetchNLines', function() {
   })
 })
 
+describe('fetchNCharacters', function() {
+  let content = 'abcd\ndef\nghi\njkl';
+
+  it('should return empty string if the number of character to fetch is 0.', function() {
+    assert.deepEqual(fetchNCharacters(0, content), '');
+  })
+
+  it('should return content of provided number of characters', function() {
+    let expectedOutput = 'abc';
+    assert.deepEqual(fetchNCharacters(3, content), expectedOutput);
+  })
+
+  it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
+    let expectedOutput = 'abcd\nd';
+    assert.deepEqual(fetchNCharacters(6, content), expectedOutput);
+  })
+})
 
