@@ -6,7 +6,8 @@ const { createHeading,
         fetchNCharacters,
         extractLength,
         getFilterFunction,
-        extractFiles } = require('../src/lib.js'); 
+        extractFiles,
+        extractDetails } = require('../src/lib.js'); 
 
 const { apply } = require('../src/util.js'); 
 
@@ -138,5 +139,31 @@ describe('extractFiles', function() {
     let input = [ 'f1', 'f2' ];
     let expectedOutput = ['f1', 'f2'];
     assert.deepEqual(extractFiles(input), expectedOutput);
+  })
+})
+
+describe('extractDetails return object of all required details from the provided input array.', function() {
+  it('should return fetchNLines() in filterContents field when the user input is \'-n\' ', function() {
+    let input = [ 0, 0, '-n', '5', 'f1', 'f2' ];
+    let expectedOutput = { filterContents : fetchNLines,
+                           length : 5,
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(extractDetails(input), expectedOutput);
+  })
+
+  it('should return fetchNCharacters() in filterContents field when the user input is \'-c\'', function() {
+    let input = [ 0, 0, '-c5', 'f1', 'f2' ];
+    let expectedOutput = { filterContents : fetchNCharacters,
+                           length : 5,
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(extractDetails(input), expectedOutput);
+  })
+
+  it('should return fetchNLines as filterContents and 10 as length when only file names are provide as input.', function() {
+    let input = [ 0, 0, 'f1', 'f2' ];
+    let expectedOutput = { filterContents : fetchNLines,
+                           length : 10,
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(extractDetails(input), expectedOutput);
   })
 })

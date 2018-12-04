@@ -21,6 +21,13 @@ const fetchNCharacters = function(content, n) {
   return content.split('').slice(0,n).join('');
 }
 
+const extractDetails = function(details) {
+  return { filterContents : getFilterFunction(details[2]),
+           length : extractLength(details.slice(2,4)),
+           files : extractFiles(details.slice(2)) 
+         };
+}
+
 const extractLength = function(details) {
   if( !details[0].match(/^-/) ) return 10;
   if( details[0].match(/[0-9]/g) ) {
@@ -50,4 +57,5 @@ module.exports = { createHeading,
                    fetchNCharacters,
                    extractLength,
                    getFilterFunction,
+                   extractDetails,
                    extractFiles };
