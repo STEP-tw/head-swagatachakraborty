@@ -1,9 +1,14 @@
 const assert = require('assert');
-const { apply } = require('../src/util.js'); 
+const { checkAndApply } = require('../src/util.js'); 
 
-describe('apply', function() {
-  it('should return modified list after applying the function over the list.', function() {
-    assert.deepEqual(apply(x => x+1, [1, 2]), [2, 3]);
+describe('checkAndApply', function() {
+  let isNumber = function(x) { return typeof(x) == 'number'; } 
+  it('should return modified list after check the condition and  applying the function over the list.', function() {
+    assert.deepEqual(checkAndApply(isNumber, x => x+1, [1, 2]), [2, 3]);
+  })
+
+  it('should return null for element if the condition fail for that element.', function() {
+    assert.deepEqual(checkAndApply(isNumber, x => x+1, [1, 'a']), [2, null]);
   })
 })
 

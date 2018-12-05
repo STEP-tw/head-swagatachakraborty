@@ -1,7 +1,8 @@
-const apply = function(functionToApply, list) {
+const checkAndApply = function(conditionChecker, functionToApply, list) {
   return list.map(function(element) {
-    return functionToApply(element, 'utf8');
+    if(conditionChecker(element))  return functionToApply(element, 'utf8');
+    return null;
   });
 }
 
-module.exports = { apply }; 
+module.exports = { checkAndApply }; 

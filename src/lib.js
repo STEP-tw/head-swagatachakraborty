@@ -3,6 +3,7 @@ const createHeading = function(title) {
 }
 
 const addHeading = function(headings, body) {
+  if(body == null) return 'head: '+headings.shift()+': No such file or directory';
   return createHeading(headings.shift()) + '\n' + body;
 }
 
@@ -14,10 +15,12 @@ const formatContents = function(contents, files) {
 }
 
 const fetchNLines = function(n, content) {
+  if(!content) return content;
   return content.split('\n').slice(0, n).join('\n');
 }
 
 const fetchNCharacters = function(n, content) {
+  if(!content) return content;
   return content.split('').slice(0,n).join('');
 }
 
@@ -63,7 +66,7 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  return length <= 0 || typeof(length) != 'number' ;
+  return length <= 0 || typeof(+length) != 'number' ;
 }
 
 const hasInvalidType = function(type) {

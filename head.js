@@ -1,5 +1,5 @@
-const { readFileSync } = require('fs'); 
-const { apply } = require('./src/util.js');
+const { readFileSync, existsSync } = require('fs'); 
+const { checkAndApply } = require('./src/util.js');
 const { parse,
         formatContents,
         fetchContents,
@@ -11,7 +11,7 @@ const main = function() {
   let { files, type, length } = parse(process.argv);
   checkValidation(type, length);
   let filterContents = getFilterFunction(type);
-  let contents = apply(readFileSync, files);
+  let contents = checkAndApply(existsSync, readFileSync, files);
   contents = fetchContents(filterContents, contents, length);
   console.log( formatContents(contents, files) );
 }

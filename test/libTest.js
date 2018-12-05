@@ -31,8 +31,13 @@ describe('addHeading', function() {
     assert.deepEqual(addHeading(headings, 'abcd'), expectedOutput);
   })
 
+  it('should return error messege if the second arg is null provided ', function() {
+    let expectedOutput = 'head: file2: No such file or directory';
+    assert.deepEqual(addHeading(headings, null), expectedOutput);
+  })
+
   it('should return only heading followed by a new line when the file body does not contain any text', function() {
-    let expectedOutput = '==> file2 <==\n';
+    let expectedOutput = '==> file3 <==\n';
     assert.deepEqual(addHeading(headings, ''), expectedOutput);
   })
 })
