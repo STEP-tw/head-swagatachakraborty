@@ -199,12 +199,16 @@ describe('extractType', function() {
 
 describe('hasInvalidLength', function() {
   it('should return false if the length is greater than 0.', function() {
-    assert.deepEqual(hasInvalidLength(2), false);
+    assert.deepEqual(hasInvalidLength('2'), false);
+  })
+
+  it('should return true if the length contain any symbol other than number.', function() {
+    assert.deepEqual(hasInvalidLength('2x'), true);
   })
 
   it('should return true if the length is less than or equal to 0.', function() {
-    assert.deepEqual(hasInvalidLength(0), true);
-    assert.deepEqual(hasInvalidLength(-1), true);
+    assert.deepEqual(hasInvalidLength('0'), true);
+    assert.deepEqual(hasInvalidLength('-1'), true);
   })
 })
 
