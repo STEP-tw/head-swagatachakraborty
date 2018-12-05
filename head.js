@@ -22,7 +22,9 @@ const checkValidation = function(type, length) {
     process.exit();
   }
   if(hasInvalidLength(length)) {
-    console.log('head: illegal byte/line count --',length);
+    let count = 'line';
+    if(type == '-c') count = 'byte';
+    console.log('head: illegal',count,'count --',length);
     process.exit();
   }
   return;
