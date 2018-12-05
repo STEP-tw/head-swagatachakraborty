@@ -35,10 +35,10 @@ const parse = function(details) {
 const extractLength = function(details) {
   if( !details[0].startsWith('-') ) return 10;
   if( details[0].match(/^-[0-9]/) ) {
-    return +details[0].split("").slice(1).join("");
+    return details[0].split("").slice(1).join("");
   } 
-  if(details[0].length == 2) return +details[1];
-  return +details[0].split("").slice(2).join("");
+  if(details[0].length == 2) return details[1];
+  return details[0].split("").slice(2).join("");
 }
 
 const extractType = function(type) {
@@ -63,7 +63,7 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  return length <= 0;
+  return length <= 0 || typeof(length) != 'number' ;
 }
 
 const hasInvalidType = function(type) {
