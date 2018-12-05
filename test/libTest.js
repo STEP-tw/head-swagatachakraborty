@@ -4,6 +4,8 @@ const { createHeading,
         extractType,
         formatContents,
         fetchNLines,
+        isValidLength,
+        isValidType,
         fetchNCharacters,
         extractLength,
         getFilterFunction,
@@ -189,3 +191,26 @@ describe('extractType', function() {
     assert.deepEqual(extractType('-9'), '-n');
   })
 })
+
+describe('isValidLength', function() {
+  it('should return true if the length is greater than 0.', function() {
+    assert.deepEqual(isValidLength(2), true);
+  })
+
+  it('should return false if the length is less than or equal to 0.', function() {
+    assert.deepEqual(isValidLength(0), false);
+    assert.deepEqual(isValidLength(-1), false);
+  })
+})
+
+describe('isValidType', function() {
+  it('should return true if the type is \'-n\' or \'-c\'.', function() {
+    assert.deepEqual(isValidType('-n'), true);
+    assert.deepEqual(isValidType('-c'), true);
+  })
+
+  it('should return true if the type is not \'-n\' or \'-c\'.', function() {
+    assert.deepEqual(isValidType('-p'), false);
+  })
+})
+
