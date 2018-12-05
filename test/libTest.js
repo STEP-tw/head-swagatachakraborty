@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { createHeading,
         addHeading,
+        extractType,
         formatContents,
         fetchNLines,
         fetchNCharacters,
@@ -8,7 +9,7 @@ const { createHeading,
         getFilterFunction,
         extractFiles,
         fetchContents,
-        extractDetails } = require('../src/lib.js'); 
+        parse } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -104,10 +105,6 @@ describe('getFilterFunction', function() {
   it('should return fetchNCharacters() when input contain \'-c\'.', function() {
     assert.deepEqual(getFilterFunction('-c'), fetchNCharacters);
   })
-
-  it('should return fetchNLines() if it contain any other input than \'-c\' or \'-n\' ', function() {
-    assert.deepEqual(getFilterFunction('-p'), fetchNLines);
-  })
 })
 
 describe('extractFiles', function() {
@@ -130,29 +127,29 @@ describe('extractFiles', function() {
   })
 })
 
-describe('extractDetails return object of all required details from the provided input array.', function() {
+describe('parse return object of all required details from the provided input array.', function() {
   it('should return fetchNLines() in filterContents field when the user input is \'-n\' ', function() {
     let input = [ 0, 0, '-n', '5', 'f1', 'f2' ];
-    let expectedOutput = { filterContents : fetchNLines,
+    let expectedOutput = { type : '-n',
                            length : 5,
                            files : ['f1', 'f2'] };
-    assert.deepEqual(extractDetails(input), expectedOutput);
+    assert.deepEqual(parse(input), expectedOutput);
   })
 
   it('should return fetchNCharacters() in filterContents field when the user input is \'-c\'', function() {
     let input = [ 0, 0, '-c5', 'f1', 'f2' ];
-    let expectedOutput = { filterContents : fetchNCharacters,
+    let expectedOutput = { type : '-c',
                            length : 5,
                            files : ['f1', 'f2'] };
-    assert.deepEqual(extractDetails(input), expectedOutput);
+    assert.deepEqual(parse(input), expectedOutput);
   })
 
   it('should return fetchNLines as filterContents and 10 as length when only file names are provide as input.', function() {
     let input = [ 0, 0, 'f1', 'f2' ];
-    let expectedOutput = { filterContents : fetchNLines,
+    let expectedOutput = { type : '-n',
                            length : 10,
                            files : ['f1', 'f2'] };
-    assert.deepEqual(extractDetails(input), expectedOutput);
+    assert.deepEqual(parse(input), expectedOutput);
   })
 })
 
@@ -167,5 +164,16 @@ describe('fetchContents', function() {
     let contents = ['abcd\nmnop\nqrst', '123\n456'];
     let expectedOutput = ['ab', '12']
     assert.deepEqual(fetchContents(fetchNCharacters, contents, 2), expectedOutput);
+  })
+})
+
+describe('extractType', function() {
+  it('should return the type when it is provided in the argument.', function() {
+    assert.deepEqual(extractType('-n4'), '-n');
+    assert.deepEqual(extractType('-c4'), '-c');
+  })
+
+  it('should return the type as \'-n\' when no type is provided.', function() {
+    assert.deepEqual(extractType('file1'), '-n');
   })
 })

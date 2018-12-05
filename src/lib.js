@@ -25,8 +25,8 @@ const fetchContents = function( filterContents, contents, length ) {
   return contents.map( filterContents.bind(null, length) );
 }
 
-const extractDetails = function(details) {
-  return { filterContents : getFilterFunction(details[2]),
+const parse = function(details) {
+  return { type : extractType(details[2]),
            length : extractLength(details.slice(2,4)),
            files : extractFiles(details.slice(2)) 
          };
@@ -40,8 +40,9 @@ const extractLength = function(details) {
   return +details[0].split("").slice(2).join("");
 }
 
-const getFilterFunction = function(type) {
-  return type.match(/-c/) ? fetchNCharacters : fetchNLines;
+const extractType = function(type) {
+  if( !type.startsWith('-') ) return '-n';
+  return type.slice(0,2);
 }
 
 const extractFiles = function(details) {
@@ -52,13 +53,20 @@ const extractFiles = function(details) {
   return details.slice(1);
 }
 
+const getFilterFunction = function(type) {
+  if(type == '-c') return fetchNCharacters;
+  return fetchNLines;
+}
+
 module.exports = { createHeading,
                    addHeading,
                    formatContents,
                    fetchNLines,
                    fetchNCharacters,
                    extractLength,
-                   getFilterFunction,
-                   extractDetails,
+                   extractType,
+                   parse,
                    fetchContents,
+                   extractType,
+                   getFilterFunction,
                    extractFiles };
