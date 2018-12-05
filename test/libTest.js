@@ -10,8 +10,6 @@ const { createHeading,
         fetchContents,
         extractDetails } = require('../src/lib.js'); 
 
-const { apply } = require('../src/util.js'); 
-
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
     let expectedOutput = '==> file1 <==';
@@ -81,12 +79,6 @@ describe('fetchNCharacters', function() {
   it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
     let expectedOutput = 'abcd\nd';
     assert.deepEqual(fetchNCharacters(6, content), expectedOutput);
-  })
-})
-
-describe('apply', function() {
-  it('should return modified list after applying the function over the list.', function() {
-    assert.deepEqual(apply(x => x+1, [1, 2]), [2, 3]);
   })
 })
 
