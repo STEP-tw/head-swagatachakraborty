@@ -37,7 +37,7 @@ const parse = function(details) {
 }
 
 const extractLength = function(details) {
-  if( !details[0].startsWith('-') ) return 10;
+  if( !details[0].startsWith('-') ) return '10';
   if( details[0].match(/^-[0-9]/) ) {
     return details[0].split("").slice(1).join("");
   } 
