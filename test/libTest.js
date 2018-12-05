@@ -128,7 +128,7 @@ describe('extractFiles', function() {
 })
 
 describe('parse return object of all required details from the provided input array.', function() {
-  it('should return fetchNLines() in filterContents field when the user input is \'-n\' ', function() {
+  it('should return object of details when the user input is [ 0, 0, -n, 5, f1, f2 ] ', function() {
     let input = [ 0, 0, '-n', '5', 'f1', 'f2' ];
     let expectedOutput = { type : '-n',
                            length : 5,
@@ -136,7 +136,7 @@ describe('parse return object of all required details from the provided input ar
     assert.deepEqual(parse(input), expectedOutput);
   })
 
-  it('should return fetchNCharacters() in filterContents field when the user input is \'-c\'', function() {
+  it('should return object of details when the user input is [ 0, 0, -n5, f1, f2 ] ', function() {
     let input = [ 0, 0, '-c5', 'f1', 'f2' ];
     let expectedOutput = { type : '-c',
                            length : 5,
@@ -144,10 +144,18 @@ describe('parse return object of all required details from the provided input ar
     assert.deepEqual(parse(input), expectedOutput);
   })
 
-  it('should return fetchNLines as filterContents and 10 as length when only file names are provide as input.', function() {
+  it('should return object of details when the user input is [ 0, 0, f1, f2 ] ', function() {
     let input = [ 0, 0, 'f1', 'f2' ];
     let expectedOutput = { type : '-n',
                            length : 10,
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ 0, 0, -5, f1, f2 ] ', function() {
+    let input = [ 0, 0, '-5', 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length : 5,
                            files : ['f1', 'f2'] };
     assert.deepEqual(parse(input), expectedOutput);
   })
@@ -175,5 +183,9 @@ describe('extractType', function() {
 
   it('should return the type as \'-n\' when no type is provided.', function() {
     assert.deepEqual(extractType('file1'), '-n');
+  })
+
+  it('should return the type as \'-n\' when the argument is only length.', function() {
+    assert.deepEqual(extractType('-9'), '-n');
   })
 })

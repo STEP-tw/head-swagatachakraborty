@@ -34,28 +34,32 @@ const parse = function(details) {
 
 const extractLength = function(details) {
   if( !details[0].startsWith('-') ) return 10;
-  if( details[0].length == 2 ) {
-    return +details[1];
+  if( details[0].match(/^-[0-9]/) ) {
+    return +details[0].split("").slice(1).join("");
   } 
+  if(details[0].length == 2) return +details[1];
   return +details[0].split("").slice(2).join("");
 }
 
 const extractType = function(type) {
-  if( !type.startsWith('-') ) return '-n';
+  if( !type.match('^-') || type.match(/^-[0-9]/) ) {
+    return '-n';
+  }
   return type.slice(0,2);
 }
 
 const extractFiles = function(details) {
-  if( !details[0].startsWith('-') ) return details.slice();
-  if(details[0].length == 2) {
+  if( details[0].length == 2 && !details[0].match(/[0-9]/) ) {
     return details.slice(2);
   }
-  return details.slice(1);
+  if( details[0].startsWith('-') && details[0].match(/[0-9]/) ) {
+    return details.slice(1);
+  }
+  return details.slice();
 }
 
 const getFilterFunction = function(type) {
-  if(type == '-c') return fetchNCharacters;
-  return fetchNLines;
+  return (type == '-c') ? fetchNCharacters : fetchNLines;
 }
 
 module.exports = { createHeading,
