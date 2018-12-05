@@ -18,7 +18,7 @@ const main = function() {
 
 const checkValidation = function(type, length) {
   if(hasInvalidType(type)) {
-    console.log('head: illegal option --',type,'\nusage: head [-n lines | -c bytes] [file ...]');
+    console.log('head: illegal option --',type[1],'\nusage: head [-n lines | -c bytes] [file ...]');
     process.exit();
   }
   if(hasInvalidLength(length)) {
