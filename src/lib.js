@@ -9,6 +9,7 @@ const addHeading = function(headings, body) {
 
 const formatContents = function(contents, files) {
   if(files.length == 1) {
+  if(contents[0] == null) return 'head: '+files[0]+': No such file or directory';
     return contents.join();
   }
   return contents.map( addHeading.bind(null, files) ).join('\n\n');
