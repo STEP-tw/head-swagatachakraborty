@@ -67,7 +67,7 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  return length <= 0 || typeof(+length) != 'number' ;
+  return length <= 0 || typeof(+length) != 'number' || length.match(/[A-z]/) ;
 }
 
 const hasInvalidType = function(type) {
