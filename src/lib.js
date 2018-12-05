@@ -33,11 +33,11 @@ const extractDetails = function(details) {
 }
 
 const extractLength = function(details) {
-  if( !details[0].match(/^-/) ) return 10;
-  if( details[0].match(/[0-9]/g) ) {
-    return +details[0].match(/[0-9]/g).join("");
+  if( !details[0].startsWith('-') ) return 10;
+  if( details[0].length == 2 ) {
+    return +details[1];
   } 
-  return +details[1].match(/[0-9]/g).join("");
+  return +details[0].split("").slice(2).join("");
 }
 
 const getFilterFunction = function(type) {
@@ -45,13 +45,11 @@ const getFilterFunction = function(type) {
 }
 
 const extractFiles = function(details) {
-  if( details[0].match(/^-/) && details[0].match(/[0-9]/) ) {
-    return details.slice(1);
-  }
-  if( details[0].match(/^-/) && !details[0].match(/[0-9]/) ) {
+  if( !details[0].startsWith('-') ) return details.slice();
+  if(details[0].length == 2) {
     return details.slice(2);
   }
-  return details;
+  return details.slice(1);
 }
 
 module.exports = { createHeading,
