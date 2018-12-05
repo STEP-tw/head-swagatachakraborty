@@ -62,12 +62,12 @@ const getFilterFunction = function(type) {
   return (type == '-c') ? fetchNCharacters : fetchNLines;
 }
 
-const isValidLength = function(length) {
-  return length > 0;
+const hasInvalidLength = function(length) {
+  return length <= 0;
 }
 
-const isValidType = function(type) {
-  return type == '-c' || type == '-n';
+const hasInvalidType = function(type) {
+  return type != '-c' && type != '-n';
 }
 
 module.exports = { createHeading,
@@ -81,6 +81,6 @@ module.exports = { createHeading,
                    fetchContents,
                    extractType,
                    getFilterFunction,
-                   isValidType,
-                   isValidLength,
+                   hasInvalidType,
+                   hasInvalidLength,
                    extractFiles };

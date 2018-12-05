@@ -4,8 +4,8 @@ const { createHeading,
         extractType,
         formatContents,
         fetchNLines,
-        isValidLength,
-        isValidType,
+        hasInvalidLength,
+        hasInvalidType,
         fetchNCharacters,
         extractLength,
         getFilterFunction,
@@ -192,25 +192,25 @@ describe('extractType', function() {
   })
 })
 
-describe('isValidLength', function() {
-  it('should return true if the length is greater than 0.', function() {
-    assert.deepEqual(isValidLength(2), true);
+describe('hasInvalidLength', function() {
+  it('should return false if the length is greater than 0.', function() {
+    assert.deepEqual(hasInvalidLength(2), false);
   })
 
-  it('should return false if the length is less than or equal to 0.', function() {
-    assert.deepEqual(isValidLength(0), false);
-    assert.deepEqual(isValidLength(-1), false);
+  it('should return true if the length is less than or equal to 0.', function() {
+    assert.deepEqual(hasInvalidLength(0), true);
+    assert.deepEqual(hasInvalidLength(-1), true);
   })
 })
 
-describe('isValidType', function() {
-  it('should return true if the type is \'-n\' or \'-c\'.', function() {
-    assert.deepEqual(isValidType('-n'), true);
-    assert.deepEqual(isValidType('-c'), true);
+describe('hasInvalidType', function() {
+  it('should return false if the type is \'-n\' or \'-c\'.', function() {
+    assert.deepEqual(hasInvalidType('-n'), false);
+    assert.deepEqual(hasInvalidType('-c'), false);
   })
 
   it('should return true if the type is not \'-n\' or \'-c\'.', function() {
-    assert.deepEqual(isValidType('-p'), false);
+    assert.deepEqual(hasInvalidType('-p'), true);
   })
 })
 
