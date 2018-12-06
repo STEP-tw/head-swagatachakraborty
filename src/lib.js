@@ -53,7 +53,7 @@ const extractType = function(type) {
 }
 
 const extractFiles = function(details) {
-  if( details[0].length == 2 && !details[0].match(/[0-9]/) ) {
+  if( details[0].startsWith('-') && !details[0].match(/[0-9]/) ) {
     return details.slice(2);
   }
   if( details[0].startsWith('-') && details[0].match(/[0-9]/) ) {
@@ -67,8 +67,7 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  if(length.match(/[A-z]/)) return true;
-  return length <= 0 || typeof(+length) != 'number' ;
+  return length <= 0 || length.match(/[A-z]/) != null; 
 }
 
 const hasInvalidType = function(type) {
