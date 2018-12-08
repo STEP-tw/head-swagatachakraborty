@@ -8,7 +8,7 @@ const { parse,
         hasInvalidLength } = require('./src/lib.js');
 
 const main = function() {
-  let { files, type, length } = parse(process.argv);
+  let { files, type, length } = parse(process.argv.slice(2));
   checkValidation(type, length);
   let filterContents = getFilterFunction(type);
   let contents = checkAndApply(existsSync, readFileSync, files);

@@ -1,15 +1,12 @@
 const assert = require('assert');
 const { createHeading,
         addHeading,
-        extractType,
         formatContents,
         fetchNLines,
         hasInvalidLength,
         hasInvalidType,
         fetchNCharacters,
-        extractLength,
         getFilterFunction,
-        extractFiles,
         fetchContents,
         parse } = require('../src/lib.js'); 
 
@@ -101,20 +98,6 @@ describe('fetchNCharacters', function() {
   })
 })
 
-describe('extractLength', function() {
-  it('should return length when it is passed as the 1st element of the input array', function() {
-    assert.deepEqual(extractLength(['-n4', 'file1']), 4);
-  })
-
-  it('should return length when it is passed as the 2st element of the input array', function() {
-    assert.deepEqual(extractLength(['-c', '5']), 5);
-  })
-
-  it('should return 10 when no length is provided', function() {
-    assert.deepEqual(extractLength(['file1', 'file2']), 10);
-  })
-})
-
 describe('getFilterFunction', function() {
   it('should return fetchNLines() when input contain \'-n\'.', function() {
     assert.deepEqual(getFilterFunction('-n4'), fetchNLines);
@@ -125,55 +108,107 @@ describe('getFilterFunction', function() {
   })
 })
 
-describe('extractFiles', function() {
-  it('should return only file names when there is 2 other arguments at begining before file names.', function() {
-    let input = [ '-n', '5', 'f1', 'f2' ];
-    let expectedOutput = ['f1', 'f2'];
-    assert.deepEqual(extractFiles(input), expectedOutput);
-  })
-
-  it('should return only file names when there is 1 other arguments at begining file names.', function() {
-    let input = [ '-n5', 'f1', 'f2' ];
-    let expectedOutput = ['f1', 'f2'];
-    assert.deepEqual(extractFiles(input), expectedOutput);
-  })
-
-  it('should return only file names when there no other arguments at begining file names.', function() {
-    let input = [ 'f1', 'f2' ];
-    let expectedOutput = ['f1', 'f2'];
-    assert.deepEqual(extractFiles(input), expectedOutput);
-  })
-})
-
 describe('parse return object of all required details from the provided input array.', function() {
-  it('should return object of details when the user input is [ 0, 0, -n, 5, f1, f2 ] ', function() {
-    let input = [ 0, 0, '-n', '5', 'f1', 'f2' ];
+  it('should return object of details when the user input is [ -n, 5, f1, f2 ] ', function() {
+    let input = [ '-n', '5', 'f1', 'f2' ];
     let expectedOutput = { type : '-n',
-                           length : 5,
+                           length : '5',
                            files : ['f1', 'f2'] };
     assert.deepEqual(parse(input), expectedOutput);
   })
 
-  it('should return object of details when the user input is [ 0, 0, -n5, f1, f2 ] ', function() {
-    let input = [ 0, 0, '-c5', 'f1', 'f2' ];
+  it('should return object of details when the user input is [ -n, 5x, f1, f2 ] ', function() {
+    let input = [ '-n', '5x', 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length : '5x',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -n, f0, f1, f2 ] ', function() {
+    let input = [ '-n', 'f0', 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length : 'f0',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -c, 5, f1, f2 ] ', function() {
+    let input = [ '-c', '5', 'f1', 'f2' ];
     let expectedOutput = { type : '-c',
-                           length : 5,
+                           length : '5',
                            files : ['f1', 'f2'] };
     assert.deepEqual(parse(input), expectedOutput);
   })
 
-  it('should return object of details when the user input is [ 0, 0, f1, f2 ] ', function() {
-    let input = [ 0, 0, 'f1', 'f2' ];
-    let expectedOutput = { type : '-n',
-                           length : 10,
+  it('should return object of details when the user input is [ -p, 5, f1, f2 ] ', function() {
+    let input = [ '-p', '5', 'f1', 'f2' ];
+    let expectedOutput = { type : '-p',
+                           length : '5',
                            files : ['f1', 'f2'] };
     assert.deepEqual(parse(input), expectedOutput);
   })
 
-  it('should return object of details when the user input is [ 0, 0, -5, f1, f2 ] ', function() {
-    let input = [ 0, 0, '-5', 'f1', 'f2' ];
+  it('should return object of details when the user input is [ -s, 5s, f1, f2 ] ', function() {
+    let input = [ '-s', '5s', 'f1', 'f2' ];
+    let expectedOutput = { type : '-s',
+                           length : '5s',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -n5, f1, f2 ] ', function() {
+    let input = [ '-n5', 'f1', 'f2' ];
     let expectedOutput = { type : '-n',
-                           length : 5,
+                           length : '5',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -c5, f1, f2 ] ', function() {
+    let input = [ '-c5', 'f1', 'f2' ];
+    let expectedOutput = { type : '-c',
+                           length : '5',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -c5x, f1, f2 ] ', function() {
+    let input = [ '-c5x', 'f1', 'f2' ];
+    let expectedOutput = { type : '-c',
+                           length : '5x',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ f1, f2 ] ', function() {
+    let input = [ 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length : '10',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -5, f1, f2 ] ', function() {
+    let input = [ '-5', 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length : '5',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -5x, f1, f2 ] ', function() {
+    let input = [ '-5x', 'f1', 'f2' ];
+    let expectedOutput = { type : '-n',
+                           length :  '5x',
+                           files : ['f1', 'f2'] };
+    assert.deepEqual(parse(input), expectedOutput);
+  })
+
+  it('should return object of details when the user input is [ -px, f1, f2 ] ', function() {
+    let input = [ '-px', 'f1', 'f2' ];
+    let expectedOutput = { type : '-p',
+                           length :  'x',
                            files : ['f1', 'f2'] };
     assert.deepEqual(parse(input), expectedOutput);
   })
@@ -196,21 +231,6 @@ describe('fetchContents', function() {
     let contents = ['abcd\nmnop\nqrst', '123\n456'];
     let expectedOutput = ['ab', '12']
     assert.deepEqual(fetchContents(fetchNCharacters, contents, 2), expectedOutput);
-  })
-})
-
-describe('extractType', function() {
-  it('should return the type when it is provided in the argument.', function() {
-    assert.deepEqual(extractType('-n4'), '-n');
-    assert.deepEqual(extractType('-c4'), '-c');
-  })
-
-  it('should return the type as \'-n\' when no type is provided.', function() {
-    assert.deepEqual(extractType('file1'), '-n');
-  })
-
-  it('should return the type as \'-n\' when the argument is only length.', function() {
-    assert.deepEqual(extractType('-9'), '-n');
   })
 })
 
@@ -239,4 +259,3 @@ describe('hasInvalidType', function() {
     assert.deepEqual(hasInvalidType('-p'), true);
   })
 })
-

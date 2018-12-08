@@ -27,36 +27,19 @@ const fetchContents = function( filterContents, contents, length ) {
 }
 
 const parse = function(details) {
-  return { type : extractType(details[2]),
-           length : extractLength(details.slice(2,4)),
-           files : extractFiles(details.slice(2)) 
-         };
-}
-
-const extractLength = function(details) {
-  if( !details[0].startsWith('-') ) return '10';
-  if( details[0].match(/^-[0-9]/) ) {
-    return details[0].split("").slice(1).join("");
-  } 
-  if(details[0].length == 2) return details[1];
-  return details[0].split("").slice(2).join("");
-}
-
-const extractType = function(type) {
-  if( !type.match('^-') || type.match(/^-[0-9]/) ) {
-    return '-n';
+  //for -5 f1 f1
+  if( details[0].startsWith('-') && details[0][1].match(/[0-9]/) ) {
+    return { files : details.slice(1), length : details[0].slice(1), type : '-n' };
   }
-  return type.slice(0,2);
-}
-
-const extractFiles = function(details) {
-  if( details[0].startsWith('-') && !details[0].match(/[0-9]/) ) {
-    return details.slice(2);
+  //for -n 5 f1 f1
+  if(details[0].startsWith('-') && details[0][1].match(/[A-z]/) && details[0].length == 2) {
+    return { files : details.slice(2), length : details[1], type : details[0] };
   }
-  if( details[0].startsWith('-') && details[0].match(/[0-9]/) ) {
-    return details.slice(1);
+  //for -n5 f1 f1
+  if(details[0].startsWith('-') && details[0][1].match(/[A-z]/)) {
+    return { files : details.slice(1), length : details[0].slice(2), type : details[0].slice(0,2) };
   }
-  return details.slice();
+  return { files : details.slice(), length : '10', type : '-n' };
 }
 
 const getFilterFunction = function(type) {
@@ -76,12 +59,8 @@ module.exports = { createHeading,
                    formatContents,
                    fetchNLines,
                    fetchNCharacters,
-                   extractLength,
-                   extractType,
                    parse,
                    fetchContents,
-                   extractType,
                    getFilterFunction,
                    hasInvalidType,
-                   hasInvalidLength,
-                   extractFiles };
+                   hasInvalidLength }
