@@ -1,0 +1,7 @@
+*.json
+.*json
+.*swp
+.*swo
+.*swm
+.nyc_output
+coverage

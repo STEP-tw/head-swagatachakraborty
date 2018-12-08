@@ -57,6 +57,13 @@ describe('formatContents', function() {
     let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
     assert.deepEqual(formatContents(contents, files), expectedOutput);
   })
+
+  it('should add headings as file names with the contents of respected files when there is multiple files ', function() {
+    let files = ['file1', 'file2'];
+    let contents = ['abcd', 'efgh'];
+    let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
+    assert.deepEqual(formatContents(contents, files), expectedOutput);
+  })
 })
 
 describe('fetchNLines', function() {
@@ -77,6 +84,10 @@ describe('fetchNCharacters', function() {
 
   it('should return empty string if the number of character to fetch is 0.', function() {
     assert.deepEqual(fetchNCharacters(0, content), '');
+  })
+
+  it('should return null if the content of the file is null .', function() {
+    assert.deepEqual(fetchNCharacters(2, null), null);
   })
 
   it('should return content of provided number of characters', function() {
@@ -172,6 +183,12 @@ describe('fetchContents', function() {
   it('should fetching the required lines content from the contents, when fetchNLines is passed. ', function() {
     let contents = ['abcd\nmnop\nqrst', '123\n456'];
     let expectedOutput = ['abcd\nmnop', '123\n456']
+    assert.deepEqual(fetchContents(fetchNLines, contents, 2), expectedOutput);
+  })
+
+  it('should return null if the contents of the file is null. ', function() {
+    let contents = [null];
+    let expectedOutput = [null]
     assert.deepEqual(fetchContents(fetchNLines, contents, 2), expectedOutput);
   })
 
