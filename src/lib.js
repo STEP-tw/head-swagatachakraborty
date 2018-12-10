@@ -59,7 +59,7 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  return length <= 0 || length.match(/[A-z]/) != null; 
+  return length < 1 || length.split("").some( x => isNaN( +x ) ) ; 
 }
 
 const hasInvalidType = function(type) {
