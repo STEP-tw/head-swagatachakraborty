@@ -8,7 +8,9 @@ const { createHeading,
         fetchNCharacters,
         getFilterFunction,
         fetchContents,
-        parse } = require('../src/lib.js'); 
+        parse,
+        generateLengthError,
+        generateTypeError } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -78,7 +80,7 @@ describe('fetchNLines', function() {
 
 describe('fetchNCharacters', function() {
   let content = 'abcd\ndef\nghi\njkl';
-
+ 
   it('should return empty string if the number of character to fetch is 0.', function() {
     assert.deepEqual(fetchNCharacters(0, content), '');
   })
@@ -257,5 +259,22 @@ describe('hasInvalidType', function() {
 
   it('should return true if the type is not \'-n\' or \'-c\'.', function() {
     assert.deepEqual(hasInvalidType('-p'), true);
+  })
+})
+
+describe('generateLengthError ', function() {
+  it('should return the error with error message with the provided lenght', function() {
+    let expectedOutput = {
+      "-n" : 'head: illegal line count -- 2x',
+      "-c" : 'head: illegal byte count -- 2x'
+    };
+    assert.deepEqual(generateLengthError ('2x'), expectedOutput);
+  })
+})
+
+describe('generateTypeError', function() {
+  let expectedOutput = 'head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]';
+  it('should return the error message with the provided type ', function() {
+    assert.deepEqual(generateTypeError ('-p'), expectedOutput);
   })
 })

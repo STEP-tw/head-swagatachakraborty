@@ -1,3 +1,24 @@
+const { checkAndApply } = require('./util');
+
+const getHead = function(length, type, files, checker, applier) {
+  if(hasInvalidType(type)) return generateTypeError(type);
+  if(hasInvalidLength(length)) return generateLengthError(length)[type];
+  let contents = checkAndApply(checker, applier, files);
+  contents = fetchContents(getFilterFunction(type), contents, length);
+  return formatContents(contents, files);
+}
+
+const generateLengthError = function(length) { 
+ return {
+    "-n" : 'head: illegal line count -- ' + length,
+    "-c" : 'head: illegal byte count -- ' + length
+  };
+}
+  
+const generateTypeError = function( type ){
+  return 'head: illegal option -- ' + type[1] + '\nusage: head [-n lines | -c bytes] [file ...]';
+}
+
 const createHeading = function(title) {
   return '==> ' + title + ' <==';
 }
@@ -43,7 +64,7 @@ const parse = function(details) {
 }
 
 const isOnlyLengthProvided = function(givenData) {
-  return givenData.startsWith('-') && givenData[1].match(/[0-9]/);
+  return givenData.startsWith('-') && givenData[1].match(/[0-9]/) ;
 }
 
 const areTypeAndLengthGivenSeparately = function(givenData) {
@@ -75,4 +96,7 @@ module.exports = { createHeading,
                    fetchContents,
                    getFilterFunction,
                    hasInvalidType,
-                   hasInvalidLength }
+                   hasInvalidLength,
+                   getHead,
+                   generateLengthError,
+                   generateTypeError };

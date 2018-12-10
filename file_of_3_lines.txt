@@ -1,4 +1,3 @@
  combiner: (A,A) => A e.g sum, concat, average, max, min
  fold: (B,A) => B 
  map: A => B
-
