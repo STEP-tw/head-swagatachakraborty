@@ -1,11 +1,11 @@
 const { checkAndApply } = require('./util');
 
 const getContents = function(context, length, type, files, checker, applier) {
-  if(hasInvalidType(type)) return generateTypeError(type)[context];
-  if(hasInvalidLength(length)[context]) return generateLengthError(length)[context][type];
+  if(hasInvalidType(type)) return typeError(type)[context];
+  if(hasInvalidLength(length)[context]) return lengthError(length)[context][type];
   let contents = checkAndApply(checker, applier, files);
   contents = fetchContents(getFilterFunction(type), contents, getBounds(length)[context]);
-  return formatContents(contents, files);
+  return formatContents(context, contents, files);
 }
 
 const getBounds = function (length) {
@@ -20,12 +20,13 @@ const getHeadBounds = function(length) {
 }
 
 const getTailBounds = function(length) {
-  return { lower : -(Math.abs(length) + 1), upper : -1 };
+  if(! +length) return {upper : length, lower : length};
+  return { lower : -Math.abs(length) };
 }
 
-const generateLengthError = function(length) { 
+const lengthError = function(length) { 
   return {
-    head: generateHeadLengthError(length),
+    head : generateHeadLengthError(length),
     tail : generateTailLengthError(length)
   };
 }
@@ -40,29 +41,36 @@ const generateHeadLengthError = function(length) {
 generateTailLengthError = function(length) {
   return {
     "-n": 'tail: illegal offset -- ' + length,
-    "-c": 'head: illegal offset -- ' + length
+    "-c": 'tail: illegal offset -- ' + length
   };
 }
 
-const generateTypeError = function( type ){
+const typeError = function( type ){
   return {
     head : 'head: illegal option -- ' + type[1] + '\nusage: head [-n lines | -c bytes] [file ...]',
-    tail : 'head: illegal option -- ' + type[1] + '\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
+    tail : 'tail: illegal option -- ' + type[1] + '\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
   }
+}
+
+const missingFileError = function( file ) {
+  return {
+    head : 'head: ' + file + ': No such file or directory',
+    tail : 'tail: ' + file + ': No such file or directory'
+  };
 }
 
 const createHeading = function(title) {
   return '==> ' + title + ' <==';
 }
 
-const addHeading = function(headings, body) {
-  if(body == null) return 'head: '+headings.shift()+': No such file or directory';
+const addHeading = function(context, headings, body) {
+  if(body == null) return missingFileError(headings.shift())[context] ;
   return createHeading(headings.shift()) + '\n' + body;
 }
 
-const formatContents = function(contents, files) {
+const formatContents = function(context, contents, files) {
   if(files.length == 1 && contents[0] != null) return contents.join();
-  return contents.map( addHeading.bind(null, files) ).join('\n\n');
+  return contents.map( addHeading.bind(null, context, files) ).join('\n\n');
 }
 
 const fetchNLines = function(bounds, content) {
@@ -127,6 +135,7 @@ const hasInvalidType = function(type) {
 }
 
 const getHead = getContents.bind(null, 'head');
+const getTail = getContents.bind(null, 'tail');
 
 module.exports = { createHeading,
                    addHeading,
@@ -139,7 +148,8 @@ module.exports = { createHeading,
                    hasInvalidType,
                    hasInvalidLength,
                    getHead,
-                   generateLengthError,
-                   generateTypeError,
+                   lengthError,
+                   typeError,
                    getHeadBounds,
-                   getTailBounds };
+                   getTailBounds,
+                   getTail };

@@ -9,8 +9,8 @@ const { createHeading,
         getFilterFunction,
         fetchContents,
         parse,
-        generateLengthError,
-        generateTypeError,
+        lengthError,
+        typeError,
         getHeadBounds,
         getTailBounds } = require('../src/lib.js'); 
 
@@ -24,46 +24,76 @@ describe('createHeading', function() {
   })
 })
 
-describe('addHeading', function() {
+describe('addHeading', function () {
+  
+  describe('for context - head', function () {
     let headings = ['file1', 'file2', 'file3'];
 
-  it('should add heading  to the body as headings and body provided ', function() {
-    let expectedOutput = '==> file1 <==\nabcd';
-    assert.deepEqual(addHeading(headings, 'abcd'), expectedOutput);
+    it('should add heading  to the body as headings and body provided for head context', function () {
+      let expectedOutput = '==> file1 <==\nabcd';
+      assert.deepEqual(addHeading('head', headings, 'abcd'), expectedOutput);
+    })
+    
+    it('should return error messege if the second arg is null provided for head context', function () {
+      let expectedOutput = 'head: file2: No such file or directory';
+      assert.deepEqual(addHeading('head', headings, null), expectedOutput);
+    })
+    
+    it('should return only heading followed by a new line when the file body does not contain any text for head context', function () {
+      let expectedOutput = '==> file3 <==\n';
+      assert.deepEqual(addHeading('head', headings, ''), expectedOutput);
+    })
   })
+  
+  describe('for context - tail', function () {
+    let headings = ['file1', 'file2', 'file3'];
+    
+    it('should add heading  to the body as headings and body provided for tail context', function () {
+      let expectedOutput = '==> file1 <==\nabcd';
+      assert.deepEqual(addHeading('tail', headings, 'abcd'), expectedOutput);
+    })
 
-  it('should return error messege if the second arg is null provided ', function() {
-    let expectedOutput = 'head: file2: No such file or directory';
-    assert.deepEqual(addHeading(headings, null), expectedOutput);
-  })
 
-  it('should return only heading followed by a new line when the file body does not contain any text', function() {
-    let expectedOutput = '==> file3 <==\n';
-    assert.deepEqual(addHeading(headings, ''), expectedOutput);
+    it('should return error messege if the second arg is null provided for tail context', function () {
+      let expectedOutput = 'tail: file2: No such file or directory';
+      assert.deepEqual(addHeading('tail', headings, null), expectedOutput);
+    })
+
+
+    it('should return only heading followed by a new line when the file body does not contain any text tail context', function () {
+      let expectedOutput = '==> file3 <==\n';
+      assert.deepEqual(addHeading('tail', headings, ''), expectedOutput);
+    })
   })
 })
 
 describe('formatContents', function() {
-
   it('should return the contens if there is only one file', function() {
     let files = ['file1'];
     let contents = ['abcd'];
     let expectedOutput = contents.join();
-    assert.deepEqual(formatContents(contents, files), expectedOutput);
+    assert.deepEqual(formatContents('head',contents, files), expectedOutput);
   })
 
-  it('should add headings as file names with the contents of respected files when there is multiple files ', function() {
+  it('should add headings when there is multiple files', function() {
     let files = ['file1', 'file2'];
     let contents = ['abcd', 'efgh'];
     let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
-    assert.deepEqual(formatContents(contents, files), expectedOutput);
+    assert.deepEqual(formatContents('head',contents, files), expectedOutput);
   })
 
-  it('should add headings as file names with the contents of respected files when there is multiple files ', function() {
+  it('should add headings when there is multiple files and should give error for missing files for head context', function() {
     let files = ['file1', 'file2'];
-    let contents = ['abcd', 'efgh'];
-    let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
-    assert.deepEqual(formatContents(contents, files), expectedOutput);
+    let contents = ['abcd', null];
+    let expectedOutput = '==> file1 <==\nabcd\n\nhead: file2: No such file or directory';
+    assert.deepEqual(formatContents('head',contents, files), expectedOutput);
+  })
+
+  it('should add headings when there is multiple files and should give error for missing files for tail context', function() {
+    let files = ['file1', 'file2'];
+    let contents = ['abcd', null];
+    let expectedOutput = '==> file1 <==\nabcd\n\ntail: file2: No such file or directory';
+    assert.deepEqual(formatContents('tail',contents, files), expectedOutput);
   })
 })
 
@@ -269,7 +299,7 @@ describe('hasInvalidType', function() {
   })
 })
 
-describe('generateLengthError ', function() {
+describe('lengthError ', function() {
   it('should return the error with error message with the provided lenght', function() {
     let expectedOutput = {
       head : {
@@ -277,21 +307,21 @@ describe('generateLengthError ', function() {
         "-c" : 'head: illegal byte count -- 2x'
       },
       tail : {
-        "-c": "head: illegal offset -- 2x",
+        "-c": "tail: illegal offset -- 2x",
         "-n": "tail: illegal offset -- 2x"
       }
     };
-    assert.deepEqual(generateLengthError ('2x'), expectedOutput);
+    assert.deepEqual(lengthError ('2x'), expectedOutput);
   })
 })
 
-describe('generateTypeError', function() {
+describe('typeError', function() {
   let expectedOutput = {
     head : 'head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]',
-    tail : 'head: illegal option -- p\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
+    tail : 'tail: illegal option -- p\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
   };
   it('should return the error message with the provided type ', function() {
-    assert.deepEqual(generateTypeError ('-p'), expectedOutput);
+    assert.deepEqual(typeError ('-p'), expectedOutput);
   })
 })
 
@@ -302,15 +332,15 @@ describe('getHeadBounds', function() {
 })
 
 describe('getTailBounds', function() {
-  it('should return an object that contain the lower and upper bounds of the file length, when length is 0', function() {
-    assert.deepEqual(getTailBounds(0), {lower : -1, upper : -1});
+  it('should return an object that contain the lower and upper bounds equal to the file length, when length is 0', function() {
+    assert.deepEqual(getTailBounds(0), {upper : 0, lower : 0});
   })
 
-  it('should return an object that contain the lower and upper bounds of the file length, when length is positive ', function() {
-    assert.deepEqual(getTailBounds(2), {lower : -3, upper : -1});
+  it('should return an object that contain lower bound of the negetive file length, when length is positive ', function() {
+    assert.deepEqual(getTailBounds(2), {lower : -2});
   })
 
-  it('should return an object that contain the lower and upper bounds of the file length, when length is positive ', function() {
-    assert.deepEqual(getTailBounds(-2), {lower : -3, upper : -1});
+  it('should return an object that contain the lower bound of the negetive file length, when length is negetive ', function() {
+    assert.deepEqual(getTailBounds(-2), {lower : -2});
   })
 })
