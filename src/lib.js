@@ -20,7 +20,7 @@ const getHeadBounds = function(length) {
 }
 
 const getTailBounds = function(length) {
-  return { lower : -(length + 1), upper : -1 };
+  return { lower : -(Math.abs(length) + 1), upper : -1 };
 }
 
 const generateLengthError = function(length) { 

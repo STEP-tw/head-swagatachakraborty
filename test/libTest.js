@@ -302,7 +302,15 @@ describe('getHeadBounds', function() {
 })
 
 describe('getTailBounds', function() {
-  it('should return an object that contain the lower and upper bounds of the file length ', function() {
+  it('should return an object that contain the lower and upper bounds of the file length, when length is 0', function() {
+    assert.deepEqual(getTailBounds(0), {lower : -1, upper : -1});
+  })
+
+  it('should return an object that contain the lower and upper bounds of the file length, when length is positive ', function() {
     assert.deepEqual(getTailBounds(2), {lower : -3, upper : -1});
+  })
+
+  it('should return an object that contain the lower and upper bounds of the file length, when length is positive ', function() {
+    assert.deepEqual(getTailBounds(-2), {lower : -3, upper : -1});
   })
 })
