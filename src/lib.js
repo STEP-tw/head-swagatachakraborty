@@ -1,11 +1,18 @@
 const { checkAndApply } = require('./util');
 
-const getHead = function(length, type, files, checker, applier) {
-  if(hasInvalidType(type)) return generateTypeError(type);
-  if(hasInvalidLength(length)) return generateLengthError(length)[type];
+const getContents = function(context, length, type, files, checker, applier) {
+  if(hasInvalidType(type)) return generateTypeError(type)[context];
+  if(hasInvalidLength(length)[context]) return generateLengthError(length)[context][type];
   let contents = checkAndApply(checker, applier, files);
-  contents = fetchContents(getFilterFunction(type), contents, getHeadBounds(length));
+  contents = fetchContents(getFilterFunction(type), contents, getBounds(length)[context]);
   return formatContents(contents, files);
+}
+
+const getBounds = function (length) {
+  return { 
+    head : getHeadBounds(length),
+    tail : getTailBounds(length)
+  };
 }
 
 const getHeadBounds = function(length) {
@@ -17,14 +24,31 @@ const getTailBounds = function(length) {
 }
 
 const generateLengthError = function(length) { 
- return {
-    "-n" : 'head: illegal line count -- ' + length,
-    "-c" : 'head: illegal byte count -- ' + length
+  return {
+    head: generateHeadLengthError(length),
+    tail : generateTailLengthError(length)
   };
 }
   
+const generateHeadLengthError = function(length) {
+  return {
+    "-n": 'head: illegal line count -- ' + length,
+    "-c": 'head: illegal byte count -- ' + length
+  };
+}
+
+generateTailLengthError = function(length) {
+  return {
+    "-n": 'tail: illegal offset -- ' + length,
+    "-c": 'head: illegal offset -- ' + length
+  };
+}
+
 const generateTypeError = function( type ){
-  return 'head: illegal option -- ' + type[1] + '\nusage: head [-n lines | -c bytes] [file ...]';
+  return {
+    head : 'head: illegal option -- ' + type[1] + '\nusage: head [-n lines | -c bytes] [file ...]',
+    tail : 'head: illegal option -- ' + type[1] + '\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
+  }
 }
 
 const createHeading = function(title) {
@@ -92,12 +116,17 @@ const getFilterFunction = function(type) {
 }
 
 const hasInvalidLength = function(length) {
-  return length < 1 || length.split("").some( x => isNaN( +x ) ) ; 
+  return {
+    head : length < 1 || isNaN(length - length) ,
+    tail : isNaN(length - length) 
+  };
 }
 
 const hasInvalidType = function(type) {
   return type != '-c' && type != '-n';
 }
+
+const getHead = getContents.bind(null, 'head');
 
 module.exports = { createHeading,
                    addHeading,

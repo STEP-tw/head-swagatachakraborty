@@ -241,17 +241,20 @@ describe('fetchContents', function() {
 })
 
 describe('hasInvalidLength', function() {
-  it('should return false if the length is greater than 0.', function() {
-    assert.deepEqual(hasInvalidLength('2'), false);
+  it('should return false in both head and tail if the length is greater than 0.', function() {
+    assert.deepEqual(hasInvalidLength('2'), { head : false, tail : false });
   })
 
-  it('should return true if the length contain any symbol other than number.', function() {
-    assert.deepEqual(hasInvalidLength('2x'), true);
+  it('should return true in both head and tail if the length contain any symbol other than number.', function() {
+    assert.deepEqual(hasInvalidLength('2x'), { head : true, tail : true });
   })
 
-  it('should return true if the length is less than or equal to 0.', function() {
-    assert.deepEqual(hasInvalidLength('0'), true);
-    assert.deepEqual(hasInvalidLength('-1'), true);
+  it('should return true in head and false in tail if the length is equal to 0.', function() {
+    assert.deepEqual(hasInvalidLength('0'), { head : true, tail : false });
+  })
+
+  it('should return true in head and false in tail if the length is negetive.', function() {
+    assert.deepEqual(hasInvalidLength('-1'), { head : true, tail : false });
   })
 })
 
@@ -269,15 +272,24 @@ describe('hasInvalidType', function() {
 describe('generateLengthError ', function() {
   it('should return the error with error message with the provided lenght', function() {
     let expectedOutput = {
-      "-n" : 'head: illegal line count -- 2x',
-      "-c" : 'head: illegal byte count -- 2x'
+      head : {
+        "-n" : 'head: illegal line count -- 2x',
+        "-c" : 'head: illegal byte count -- 2x'
+      },
+      tail : {
+        "-c": "head: illegal offset -- 2x",
+        "-n": "tail: illegal offset -- 2x"
+      }
     };
     assert.deepEqual(generateLengthError ('2x'), expectedOutput);
   })
 })
 
 describe('generateTypeError', function() {
-  let expectedOutput = 'head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]';
+  let expectedOutput = {
+    head : 'head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]',
+    tail : 'head: illegal option -- p\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
+  };
   it('should return the error message with the provided type ', function() {
     assert.deepEqual(generateTypeError ('-p'), expectedOutput);
   })
