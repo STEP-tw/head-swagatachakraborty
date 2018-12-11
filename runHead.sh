@@ -1,23 +1,23 @@
 #! /bin/sh
-echo '----------------------------------./head.js -n5 file1--------------------------------------'
-node ./head.js -n5 file1
-echo '----------------------------------./head.js -n 5 file1--------------------------------------'
-node ./head.js -n 5 file1
-echo '---------------------------------------./head.js -5 file1---------------------------------'
-node ./head.js -5 file1
-echo '----------------------------------./head.js file1 file2--------------------------------------'
-node ./head.js file1 file2
-echo '----------------------------------./head.js -n 5 file1 file2--------------------------------------'
-node ./head.js -n 5 file1 file2
-echo '----------------------------------./head.js -n5 file1 file2--------------------------------------'
-node ./head.js -n5 file1 file2
-echo '-----------------------------------./head.js -5 file1 file2-------------------------------------'
-node ./head.js -5 file1 file2
-echo '-----------------------------------./head.js -c5 file1-------------------------------------'
-node ./head.js -c5 file1
-echo '-----------------------------------./head.js -c 5 file1-------------------------------------'
-node ./head.js -c 5 file1
-echo '---------------------------------./head.js -c5 file1 file2---------------------------------------'
-node ./head.js -c5 file1 file2
-echo '--------------------------./head.js -c 5 file1 file2----------------------------------------------'
-node ./head.js -c 5 file1 file2
+echo '----------------------------------./head.js -n5 file_of_12_lines.txt--------------------------------------'
+node ./head.js -n5 file_of_12_lines.txt
+echo '----------------------------------./head.js -n 5 file_of_12_lines.txt--------------------------------------'
+node ./head.js -n 5 file_of_12_lines.txt
+echo '---------------------------------------./head.js -5 file_of_12_lines.txt---------------------------------'
+node ./head.js -5 file_of_12_lines.txt
+echo '----------------------------------./head.js file_of_12_lines.txt file_of_3_lines.txt--------------------------------------'
+node ./head.js file_of_12_lines.txt file_of_3_lines.txt
+echo '----------------------------------./head.js -n 5 file_of_12_lines.txt file_of_3_lines.txt--------------------------------------'
+node ./head.js -n 5 file_of_12_lines.txt file_of_3_lines.txt
+echo '----------------------------------./head.js -n5 file_of_12_lines.txt file_of_3_lines.txt--------------------------------------'
+node ./head.js -n5 file_of_12_lines.txt file_of_3_lines.txt
+echo '-----------------------------------./head.js -5 file_of_12_lines.txt file_of_3_lines.txt-------------------------------------'
+node ./head.js -5 file_of_12_lines.txt file_of_3_lines.txt
+echo '-----------------------------------./head.js -c5 file_of_12_lines.txt-------------------------------------'
+node ./head.js -c5 file_of_12_lines.txt
+echo '-----------------------------------./head.js -c 5 file_of_12_lines.txt-------------------------------------'
+node ./head.js -c 5 file_of_12_lines.txt
+echo '---------------------------------./head.js -c5 file_of_12_lines.txt file_of_3_lines.txt---------------------------------------'
+node ./head.js -c5 file_of_12_lines.txt file_of_3_lines.txt
+echo '--------------------------./head.js -c 5 file_of_12_lines.txt file_of_3_lines.txt----------------------------------------------'
+node ./head.js -c 5 file_of_12_lines.txt file_of_3_lines.txt
