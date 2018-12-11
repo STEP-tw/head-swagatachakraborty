@@ -11,7 +11,8 @@ const { createHeading,
         parse,
         generateLengthError,
         generateTypeError,
-        getHeadBounds } = require('../src/lib.js'); 
+        getHeadBounds,
+        getTailBounds } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -285,5 +286,11 @@ describe('generateTypeError', function() {
 describe('getHeadBounds', function() {
   it('should return an object that contain the lower and upper bounds of the file length ', function() {
     assert.deepEqual(getHeadBounds(2), {lower : 0, upper : 2});
+  })
+})
+
+describe('getTailBounds', function() {
+  it('should return an object that contain the lower and upper bounds of the file length ', function() {
+    assert.deepEqual(getTailBounds(2), {lower : -3, upper : -1});
   })
 })

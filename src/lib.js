@@ -12,6 +12,10 @@ const getHeadBounds = function(length) {
   return { lower : 0, upper : length };
 }
 
+const getTailBounds = function(length) {
+  return { lower : -(length + 1), upper : -1 };
+}
+
 const generateLengthError = function(length) { 
  return {
     "-n" : 'head: illegal line count -- ' + length,
@@ -108,4 +112,5 @@ module.exports = { createHeading,
                    getHead,
                    generateLengthError,
                    generateTypeError,
-                   getHeadBounds };
+                   getHeadBounds,
+                   getTailBounds };
