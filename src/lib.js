@@ -4,8 +4,12 @@ const getHead = function(length, type, files, checker, applier) {
   if(hasInvalidType(type)) return generateTypeError(type);
   if(hasInvalidLength(length)) return generateLengthError(length)[type];
   let contents = checkAndApply(checker, applier, files);
-  contents = fetchContents(getFilterFunction(type), contents, length);
+  contents = fetchContents(getFilterFunction(type), contents, getHeadBounds(length));
   return formatContents(contents, files);
+}
+
+const getHeadBounds = function(length) {
+  return { lower : 0, upper : length };
 }
 
 const generateLengthError = function(length) { 
@@ -33,18 +37,22 @@ const formatContents = function(contents, files) {
   return contents.map( addHeading.bind(null, files) ).join('\n\n');
 }
 
-const fetchNLines = function(n, content) {
+const fetchNLines = function(bounds, content) {
   if(!content) return content;
-  return content.split('\n').slice(0, n).join('\n');
+  return content.split('\n')
+        .slice(bounds.lower, bounds.upper)
+        .join('\n');
 }
 
-const fetchNCharacters = function(n, content) {
+const fetchNCharacters = function(bounds, content) {
   if(!content) return content;
-  return content.split('').slice(0,n).join('');
+  return content.split('')
+        .slice(bounds.lower, bounds.upper)
+        .join('');
 }
 
-const fetchContents = function( filterContents, contents, length ) {
-  return contents.map( filterContents.bind(null, length) );
+const fetchContents = function( filterContents, contents, bounds ) {
+  return contents.map( filterContents.bind(null, bounds) );
 }
 
 const parse = function(details) {
@@ -99,4 +107,5 @@ module.exports = { createHeading,
                    hasInvalidLength,
                    getHead,
                    generateLengthError,
-                   generateTypeError };
+                   generateTypeError,
+                   getHeadBounds };

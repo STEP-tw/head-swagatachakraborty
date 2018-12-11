@@ -10,7 +10,8 @@ const { createHeading,
         fetchContents,
         parse,
         generateLengthError,
-        generateTypeError } = require('../src/lib.js'); 
+        generateTypeError,
+        getHeadBounds } = require('../src/lib.js'); 
 
 describe('createHeading', function() {
   it('should return heading as file names are provided ', function() {
@@ -69,12 +70,12 @@ describe('fetchNLines', function() {
   let content = 'abcd\ndef\nghi\njFkl\n5\n6\n7\n8\n9\n10\n11';
 
   it('should return empty string if the number of line to fetch is 0.', function() {
-    assert.deepEqual(fetchNLines(0, content), '');
+    assert.deepEqual(fetchNLines({ lower : 0, upper : 0 }, content), '');
   })
 
   it('should return content of provided number of lines', function() {
     let expectedOutput = 'abcd\ndef\nghi';
-    assert.deepEqual(fetchNLines(3, content), expectedOutput);
+    assert.deepEqual(fetchNLines({ lower : 0, upper : 3 }, content), expectedOutput);
   })
 })
 
@@ -82,21 +83,21 @@ describe('fetchNCharacters', function() {
   let content = 'abcd\ndef\nghi\njkl';
  
   it('should return empty string if the number of character to fetch is 0.', function() {
-    assert.deepEqual(fetchNCharacters(0, content), '');
+    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 0 }, content), '');
   })
 
   it('should return null if the content of the file is null .', function() {
-    assert.deepEqual(fetchNCharacters(2, null), null);
+    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 2 }, null), null);
   })
 
   it('should return content of provided number of characters', function() {
     let expectedOutput = 'abc';
-    assert.deepEqual(fetchNCharacters(3, content), expectedOutput);
+    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 3 }, content), expectedOutput);
   })
 
   it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
     let expectedOutput = 'abcd\nd';
-    assert.deepEqual(fetchNCharacters(6, content), expectedOutput);
+    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 6 }, content), expectedOutput);
   })
 })
 
@@ -217,22 +218,24 @@ describe('parse return object of all required details from the provided input ar
 })
 
 describe('fetchContents', function() {
+  let bounds = { lower : 0, upper : 2 };
+
   it('should fetching the required lines content from the contents, when fetchNLines is passed. ', function() {
     let contents = ['abcd\nmnop\nqrst', '123\n456'];
     let expectedOutput = ['abcd\nmnop', '123\n456']
-    assert.deepEqual(fetchContents(fetchNLines, contents, 2), expectedOutput);
+    assert.deepEqual(fetchContents(fetchNLines, contents, bounds), expectedOutput);
   })
 
   it('should return null if the contents of the file is null. ', function() {
     let contents = [null];
     let expectedOutput = [null]
-    assert.deepEqual(fetchContents(fetchNLines, contents, 2), expectedOutput);
+    assert.deepEqual(fetchContents(fetchNLines, contents, bounds), expectedOutput);
   })
 
   it('should fetching the required character content from the contents, when fetchNCharacters is passed. ', function() {
     let contents = ['abcd\nmnop\nqrst', '123\n456'];
     let expectedOutput = ['ab', '12']
-    assert.deepEqual(fetchContents(fetchNCharacters, contents, 2), expectedOutput);
+    assert.deepEqual(fetchContents(fetchNCharacters, contents, bounds), expectedOutput);
   })
 })
 
@@ -276,5 +279,11 @@ describe('generateTypeError', function() {
   let expectedOutput = 'head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]';
   it('should return the error message with the provided type ', function() {
     assert.deepEqual(generateTypeError ('-p'), expectedOutput);
+  })
+})
+
+describe('getHeadBounds', function() {
+  it('should return an object that contain the lower and upper bounds of the file length ', function() {
+    assert.deepEqual(getHeadBounds(2), {lower : 0, upper : 2});
   })
 })
