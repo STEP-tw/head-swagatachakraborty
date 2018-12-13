@@ -39,7 +39,7 @@ const generateHeadLengthError = function(length) {
   };
 }
 
-generateTailLengthError = function(length) {
+const generateTailLengthError = function(length) {
   return {
     "-n": 'tail: illegal offset -- ' + length,
     "-c": 'tail: illegal offset -- ' + length
