@@ -1,9 +1,10 @@
-const { checkAndApply } = require('./util');
+const { checkAndApply, toString, isNotNull } = require('./util');
 
 const getContents = function(context, length, type, files, checker, applier) {
   if(hasInvalidType(type)) return typeError(type)[context];
   if(hasInvalidLength(length)[context]) return lengthError(length)[context][type];
   let contents = checkAndApply(checker, applier, files);
+  contents = checkAndApply(isNotNull, toString, contents);
   contents = fetchContents(getFilterFunction(type), contents, getBounds(length)[context]);
   return formatContents(context, contents, files);
 }
