@@ -1,9 +1,9 @@
 const { checkAndApply, toString, isNotNull } = require('./util');
 
-const getContents = function(context, length, type, files, checker, applier) {
+const getContents = function(context, length, type, files, isExist, reader) {
   if(hasInvalidType(type)) return typeError(type)[context];
   if(hasInvalidLength(length)[context]) return lengthError(length)[context][type];
-  let contents = checkAndApply(checker, applier, files);
+  let contents = checkAndApply(isExist, reader, files);
   contents = checkAndApply(isNotNull, toString, contents);
   contents = fetchContents(getFilterFunction(type), contents, getBounds(length)[context]);
   return formatContents(context, contents, files);
@@ -50,7 +50,7 @@ const typeError = function( type ){
   return {
     head : 'head: illegal option -- ' + type[1] + '\nusage: head [-n lines | -c bytes] [file ...]',
     tail : 'tail: illegal option -- ' + type[1] + '\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]'
-  }
+  };
 }
 
 const missingFileError = function( file ) {
@@ -112,7 +112,7 @@ const parse = function(details) {
 }
 
 const isOnlyLengthProvided = function(givenData) {
-  return givenData.startsWith('-') && givenData[1].match(/[0-9]/) ;
+  return givenData.startsWith('-') && givenData[1].match(/[0-9]/);
 }
 
 const areTypeAndLengthGivenSeparately = function(givenData) {
