@@ -24,45 +24,42 @@ describe('createHeading', function() {
   })
 })
 
-describe('addHeading', function () {
-  
+describe('addHeading - will take file names and return a function that will add heading of file names ', function () {  
+  let headings = ['file1', 'file2', 'file3'];
   describe('for context - head', function () {
-    let headings = ['file1', 'file2', 'file3'];
-
+    let addHeadingWith = addHeading('head', headings);
     it('should add heading  to the body as headings and body provided for head context', function () {
       let expectedOutput = '==> file1 <==\nabcd';
-      assert.deepEqual(addHeading('head', headings, 'abcd'), expectedOutput);
+      assert.deepEqual( addHeadingWith('abcd'), expectedOutput);
     })
     
     it('should return error messege if the second arg is null provided for head context', function () {
       let expectedOutput = 'head: file2: No such file or directory';
-      assert.deepEqual(addHeading('head', headings, null), expectedOutput);
+      assert.deepEqual(addHeadingWith(null), expectedOutput);
     })
     
     it('should return only heading followed by a new line when the file body does not contain any text for head context', function () {
       let expectedOutput = '==> file3 <==\n';
-      assert.deepEqual(addHeading('head', headings, ''), expectedOutput);
+      assert.deepEqual(addHeadingWith(''), expectedOutput);
     })
   })
   
   describe('for context - tail', function () {
-    let headings = ['file1', 'file2', 'file3'];
+    let addHeadingWith = addHeading('tail', headings);
     
     it('should add heading  to the body as headings and body provided for tail context', function () {
       let expectedOutput = '==> file1 <==\nabcd';
-      assert.deepEqual(addHeading('tail', headings, 'abcd'), expectedOutput);
+      assert.deepEqual(addHeadingWith('abcd'), expectedOutput);
     })
-
 
     it('should return error messege if the second arg is null provided for tail context', function () {
       let expectedOutput = 'tail: file2: No such file or directory';
-      assert.deepEqual(addHeading('tail', headings, null), expectedOutput);
+      assert.deepEqual(addHeadingWith(null), expectedOutput);
     })
-
 
     it('should return only heading followed by a new line when the file body does not contain any text tail context', function () {
       let expectedOutput = '==> file3 <==\n';
-      assert.deepEqual(addHeading('tail', headings, ''), expectedOutput);
+      assert.deepEqual(addHeadingWith(''), expectedOutput);
     })
   })
 })

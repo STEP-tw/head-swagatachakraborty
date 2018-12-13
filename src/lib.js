@@ -64,14 +64,17 @@ const createHeading = function(title) {
   return '==> ' + title + ' <==';
 }
 
-const addHeading = function(context, headings, body) {
-  if(body == null) return missingFileError(headings.shift())[context] ;
-  return createHeading(headings.shift()) + '\n' + body;
+const addHeading = function(context, files) {
+  let headings = files.slice();
+  return function(body) {
+    if(body == null) return missingFileError(headings.shift())[context] ;
+    return createHeading(headings.shift()) + '\n' + body;
+  };
 }
 
 const formatContents = function(context, contents, files) {
   if(files.length == 1 && contents[0] != null) return contents.join();
-  return contents.map( addHeading.bind(null, context, files) ).join('\n\n');
+  return contents.map( addHeading(context, files) ).join('\n\n');
 }
 
 const fetchNLines = function(bounds, content) {
