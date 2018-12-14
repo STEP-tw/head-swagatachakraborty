@@ -1,5 +1,7 @@
 const { checkAndApply, toString, isNotNull } = require('./util');
-const {  hasInvalidType, hasInvalidLength, lengthError, typeError, missingFileError} = require('./error');
+const { parse } = require('./parse');
+const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require('./error');
+const { formatContents, addHeading, createHeading } = require('./format');
 
 const getContents = function(context, length, type, files, isExist, reader) {
   if(hasInvalidType(type)) return typeError(type)[context];
@@ -26,23 +28,6 @@ const getTailBounds = function(length) {
   return { lower : -Math.abs(length) };
 }
 
-const createHeading = function(title) {
-  return '==> ' + title + ' <==';
-}
-
-const addHeading = function(context, files) {
-  let headings = files.slice();
-  return function(body) {
-    if(body == null) return missingFileError(headings.shift())[context] ;
-    return createHeading(headings.shift()) + '\n' + body;
-  };
-}
-
-const formatContents = function(context, contents, files) {
-  if(files.length == 1 && contents[0] != null) return contents.join();
-  return contents.map( addHeading(context, files) ).join('\n\n');
-}
-
 const fetchNLines = function(bounds, content) {
   if(!content) return content;
   return content.split('\n')
@@ -59,6 +44,10 @@ const fetchNCharacters = function(bounds, content) {
 
 const fetchContents = function( filterContents, contents, bounds ) {
   return contents.map( filterContents.bind(null, bounds) );
+}
+
+const getFilterFunction = function(type) {
+  return (type == '-c') ? fetchNCharacters : fetchNLines;
 }
 
 const getHead = getContents.bind(null, 'head');
