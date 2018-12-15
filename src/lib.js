@@ -56,19 +56,11 @@ const getHead = getContents.bind(null, "head");
 const getTail = getContents.bind(null, "tail");
 
 module.exports = {
-  createHeading,
-  addHeading,
-  formatContents,
   fetchNLines,
   fetchNCharacters,
-  parse,
   fetchContents,
   getFilterFunction,
-  hasInvalidType,
-  hasInvalidLength,
   getHead,
-  lengthError,
-  typeError,
   getHeadBounds,
   getTailBounds,
   getTail
