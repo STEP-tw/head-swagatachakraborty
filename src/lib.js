@@ -1,7 +1,6 @@
 const { checkAndApply, toString, isNotNull } = require("./util");
-const { parse } = require("./parse");
 const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require("./error");
-const { formatContents, addHeading, createHeading } = require("./format");
+const { formatContents } = require("./format");
 
 const getContents = function(context, length, type, files, isExist, reader) {
   if (hasInvalidType(type)) return typeError(type)[context];
