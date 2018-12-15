@@ -1,4 +1,4 @@
-const { missingFileError } = require("./Error");
+const { missingFileError } = require("./error");
 
 const createHeading = function(title) {
   return "==> " + title + " <==";

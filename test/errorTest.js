@@ -4,7 +4,7 @@ const {
     hasInvalidType,
     lengthError,
     typeError
-} = require('../src/Error');
+} = require('../src/error');
 
 describe("hasInvalidLength", function() {
   it("should return false in both head and tail if the length is greater than 0.", function() {
