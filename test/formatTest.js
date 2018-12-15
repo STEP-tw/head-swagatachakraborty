@@ -1,4 +1,4 @@
-const assert = require('assert');escape
+const assert = require('assert');
 const { 
     createHeading,
     addHeading,
