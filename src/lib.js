@@ -28,7 +28,7 @@ const getHeadBounds = function(length) {
 };
 
 const getTailBounds = function(length) {
-  if (!+length) return { upper: length, lower: length };
+  if (!length) return { upper: length, lower: length };
   return { lower: -Math.abs(length) };
 };
 
