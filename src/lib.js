@@ -1,12 +1,17 @@
-const { checkAndApply, toString, isNotNull } = require("./util");
+const { checkAndApply } = require("./util");
 const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require("./error");
 const { formatContents } = require("./format");
+
+const utf8Reader = function (reader) {
+  return function(element){
+    return reader(element, 'utf8');
+  };
+};
 
 const getContents = function(context, length, type, files, isExist, reader) {
   if (hasInvalidType(type)) return typeError(type)[context];
   if (hasInvalidLength(length)[context]) return lengthError(length)[context][type];
-  let contents = checkAndApply(isExist, reader, files);
-  contents = checkAndApply(isNotNull, toString, contents);
+  let contents = checkAndApply(isExist, utf8Reader(reader) ,files);
   contents = fetchContents( getFilterFunction(type), contents, getBounds(length)[context] );
   return formatContents(context, contents, files);
 };
