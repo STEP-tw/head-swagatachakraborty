@@ -1,5 +1,7 @@
+const { toNumber } = require('./util');
+
 const generateDetails = function (files, length, type) {
-  return { files : files, length : length, type : type };
+  return { files : files, length : toNumber( length ), type : type };
 };
 
 const parse = function(details) {
