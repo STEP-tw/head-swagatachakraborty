@@ -1,5 +1,15 @@
 const assert = require('assert');
-const { checkAndApply } = require('../src/util.js'); 
+const { checkAndApply, toNumber } = require('../src/util.js'); 
+
+describe('toNumber', function() {
+  it('should return number if the argument given to it is number in string format', function() {
+    assert.deepEqual(toNumber('1'), 1);
+  })
+
+  it('should return the element if the argument given to it is not a number in string format', function() {
+    assert.deepEqual(toNumber('1a'), '1a');
+  })
+})
 
 describe('checkAndApply', function() {
   let isNumber = function(x) { return typeof(x) == 'number'; } 
