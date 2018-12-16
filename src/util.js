@@ -5,12 +5,4 @@ const checkAndApply = function(conditionChecker, functionToApply, list) {
   });
 }
 
-const toString = function (elements) {
-  return elements.toString();
-}
-
-const isNotNull = function (element) {
-  return element != null;
-};
-
-module.exports = { checkAndApply, toString, isNotNull }; 
+module.exports = { checkAndApply }; 
