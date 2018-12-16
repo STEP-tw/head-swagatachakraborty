@@ -7,8 +7,8 @@ const checkAndApply = function(conditionChecker, functionToApply, list) {
 
 const toNumber = function (element) {
   if( isNaN(+element) ){
-    return element
+    return element;
   }
-  return element;
+  return +element;
 };
 module.exports = { checkAndApply, toNumber }; 

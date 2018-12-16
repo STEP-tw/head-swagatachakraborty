@@ -3,11 +3,11 @@ const { checkAndApply, toNumber } = require('../src/util.js');
 
 describe('toNumber', function() {
   it('should return number if the argument given to it is number in string format', function() {
-    assert.deepEqual(toNumber('1'), 1);
+    assert.strictEqual(toNumber('1'), 1);
   })
 
   it('should return the element if the argument given to it is not a number in string format', function() {
-    assert.deepEqual(toNumber('1a'), '1a');
+    assert.strictEqual(toNumber('1a'), '1a');
   })
 })
 
