@@ -1,5 +1,5 @@
 const { checkAndApply } = require("../util/util");
-const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require("./error");
+const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require("./errorHandler");
 const { formatContents } = require("./format");
 
 const utf8Reader = function (reader) {
