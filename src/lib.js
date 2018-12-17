@@ -8,11 +8,11 @@ const utf8Reader = function (reader) {
   };
 };
 
-const getContents = function(context, count, type, files, isExist, reader) {
-  if (hasInvalidType(type)) return typeError(type)[context];
-  if (hasInvalidLength(count)[context]) return lengthError(count)[context][type];
+const getContents = function(context, count, option, files, isExist, reader) {
+  if (hasInvalidType(option)) return typeError(option)[context];
+  if (hasInvalidLength(count)[context]) return lengthError(count)[context][option];
   let contents = checkAndApply(isExist, utf8Reader(reader) ,files);
-  contents = fetchContents( getFilterFunction(type), contents, getBounds(count)[context] );
+  contents = fetchContents( getFilterFunction(option), contents, getBounds(count)[context] );
   return formatContents(context, contents, files);
 };
 
