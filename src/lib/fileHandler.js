@@ -4,7 +4,7 @@ const {
   hasInvalidLength,
   lengthError,
   typeError } = require("./errorHandler");
-  const { formatContents } = require("./format");
+const { formatContents } = require("./format");
 
 const utf8Reader = function (reader) {
   return function(element){
@@ -20,20 +20,20 @@ const getContents = function(context, count, option, files, isExist, reader) {
   return formatContents(context, contents, files);
 };
 
-const getBounds = function(length) {
+const getBounds = function(count) {
   return {
-    head: getHeadBounds(length),
-    tail: getTailBounds(length)
+    head: getHeadBounds(count),
+    tail: getTailBounds(count)
   };
 };
 
-const getHeadBounds = function(length) {
-  return { lower: 0, upper: length };
+const getHeadBounds = function(count) {
+  return { lower: 0, upper: count };
 };
 
-const getTailBounds = function(length) {
-  if (!length) return { upper: length, lower: length };
-  return { lower: -Math.abs(length) };
+const getTailBounds = function(count) {
+  if (!count) return { upper: count, lower: count };
+  return { lower: -Math.abs(count) };
 };
 
 const fetchNLines = function(bounds, content) {
