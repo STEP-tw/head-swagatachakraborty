@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parse } = require('../src/parse');
+const { parse } = require('../../src/lib/parse');
 
 describe("parse return object of all required details from the provided input array.", function() {
   it("should return object of details when the user input is [ -n, 5, f1, f2 ] ", function() {

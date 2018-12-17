@@ -1,4 +1,4 @@
-const { toNumber } = require('./util');
+const { toNumber } = require('../util/util');
 
 const generateDetails = function (files, length, type) {
   return { files : files, length : toNumber( length ), type : type };

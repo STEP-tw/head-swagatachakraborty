@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { checkAndApply, toNumber } = require('../src/util.js'); 
+const { checkAndApply, toNumber } = require('../../src/util/util'); 
 
 describe('toNumber', function() {
   it('should return number if the argument given to it is number in string format', function() {

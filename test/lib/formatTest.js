@@ -3,7 +3,7 @@ const {
     createHeading,
     addHeading,
     formatContents 
-} = require('../src/format');
+} = require('../../src/lib/format');
 
 describe("createHeading", function() {
   it("should return heading as file names are provided ", function() {

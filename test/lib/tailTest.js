@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { getTail } = require('../src/lib');
+const { getTail } = require('../../src/lib/lib');
 
 const checker = (x) => !isNaN(x);
 const applier = (x) => x;

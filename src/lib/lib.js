@@ -1,4 +1,4 @@
-const { checkAndApply } = require("./util");
+const { checkAndApply } = require("../util/util");
 const { hasInvalidType, hasInvalidLength, lengthError, typeError } = require("./error");
 const { formatContents } = require("./format");
 
