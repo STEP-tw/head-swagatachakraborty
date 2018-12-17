@@ -1,10 +1,10 @@
-const assert = require('assert');
+const assert = require("assert");
 const {
-    hasInvalidLength,
-    hasInvalidType,
-    lengthError,
-    typeError
-} = require('../../src/lib/errorHandler');
+  hasInvalidLength,
+  hasInvalidType,
+  lengthError,
+  typeError
+} = require("../../src/lib/errorHandler");
 
 describe("hasInvalidLength", function() {
   it("should return false in both head and tail if the length is greater than 0.", function() {

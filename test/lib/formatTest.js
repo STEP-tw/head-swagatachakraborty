@@ -1,9 +1,9 @@
-const assert = require('assert');
-const { 
-    createHeading,
-    addHeading,
-    formatContents 
-} = require('../../src/lib/format');
+const assert = require("assert");
+const {
+  createHeading,
+  addHeading,
+  formatContents
+} = require("../../src/lib/format");
 
 describe("createHeading", function() {
   it("should return heading as file names are provided ", function() {
