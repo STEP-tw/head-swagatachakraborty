@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { getHead } = require('../../src/lib/lib');
+const { getHead } = require('../../src/lib/fileHandler');
 
 const checker = (x) => !isNaN(x);
 const applier = (x) => x;

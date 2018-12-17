@@ -4,7 +4,7 @@ const { fetchNLines,
         getFilterFunction,
         fetchContents,
         getHeadBounds,
-        getTailBounds } = require('../../src/lib/lib.js'); 
+        getTailBounds } = require('../../src/lib/fileHandler'); 
 
 
 describe('fetchNLines', function() {
