@@ -56,8 +56,8 @@ const fetchContents = function(filterContents, contents, bounds) {
   return contents.map(filterContents.bind(null, bounds));
 };
 
-const getFilterFunction = function(type) {
-  return type == "-c" ? fetchNCharacters : fetchNLines;
+const getFilterFunction = function(option) {
+  return option == "-c" ? fetchNCharacters : fetchNLines;
 };
 
 const getHead = getContents.bind(null, "head");
