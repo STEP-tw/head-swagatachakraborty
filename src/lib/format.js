@@ -12,13 +12,13 @@ const addHeading = function(context, files) {
   };
 };
 
-const formatContents = function(context, fileLog) {
+const mapFileContent = function(context, fileLog) {
   if ( fileLog.exist ) return fileLog.content;
   return missingFileError( fileLog.file )[context];
 };
 
-const formatHead = formatContents.bind(null, 'head');
-const formatTail = formatContents.bind(null, 'tail');
+const formatHead = mapFileContent.bind(null, 'head');
+const formatTail = mapFileContent.bind(null, 'tail');
 
 module.exports = {
   formatHead,
