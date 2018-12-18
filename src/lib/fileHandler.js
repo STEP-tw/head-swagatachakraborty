@@ -14,8 +14,8 @@ const utf8Reader = function (reader) {
 const generateFileLogs = function(context, count, option, files, isExist, reader) {
   if (hasInvalidOption(option)) return optionError(option)[context];
   if (hasInvalidCount(count)[context]) return countError(count)[context][option];
-  let contentReader = getContentReader( getFilterFunction(option), getBounds(count)[context] );
-  return files.map( getFilelog.bind(null, contentReader, isExist, utf8Reader(reader)) );
+  let filter = getContentFilter( getFilterFunction(option), getBounds(count)[context] );
+  return files.map( getFilelog.bind(null, filter, isExist, utf8Reader(reader)) );
 };
 
 const getFilelog = function (getContent, isExist, reader, file ) {
@@ -26,7 +26,7 @@ const getFilelog = function (getContent, isExist, reader, file ) {
   };
 };
 
-const getContentReader = function ( filterContent, bounds ) {
+const getContentFilter = function ( filterContent, bounds ) {
   return function ( content ) {
     return filterContent( bounds, content );
   };
