@@ -1,41 +1,41 @@
 const assert = require("assert");
 const {
-  hasInvalidLength,
-  hasInvalidType,
-  lengthError,
-  typeError
+  hasInvalidCount,
+  hasInvalidOption,
+  countError,
+  optionError
 } = require("../../src/lib/errorHandler");
 
-describe("hasInvalidLength", function() {
+describe("hasInvalidCount", function() {
   it("should return false in both head and tail if the length is greater than 0.", function() {
-    assert.deepEqual(hasInvalidLength("2"), { head: false, tail: false });
+    assert.deepEqual(hasInvalidCount("2"), { head: false, tail: false });
   });
 
   it("should return true in both head and tail if the length contain any symbol other than number.", function() {
-    assert.deepEqual(hasInvalidLength("2x"), { head: true, tail: true });
+    assert.deepEqual(hasInvalidCount("2x"), { head: true, tail: true });
   });
 
   it("should return true in head and false in tail if the length is equal to 0.", function() {
-    assert.deepEqual(hasInvalidLength("0"), { head: true, tail: false });
+    assert.deepEqual(hasInvalidCount("0"), { head: true, tail: false });
   });
 
   it("should return true in head and false in tail if the length is negetive.", function() {
-    assert.deepEqual(hasInvalidLength("-1"), { head: true, tail: false });
+    assert.deepEqual(hasInvalidCount("-1"), { head: true, tail: false });
   });
 });
 
-describe("hasInvalidType", function() {
+describe("hasInvalidOption", function() {
   it("should return false if the type is '-n' or '-c'.", function() {
-    assert.deepEqual(hasInvalidType("-n"), false);
-    assert.deepEqual(hasInvalidType("-c"), false);
+    assert.deepEqual(hasInvalidOption("-n"), false);
+    assert.deepEqual(hasInvalidOption("-c"), false);
   });
 
   it("should return true if the type is not '-n' or '-c'.", function() {
-    assert.deepEqual(hasInvalidType("-p"), true);
+    assert.deepEqual(hasInvalidOption("-p"), true);
   });
 });
 
-describe("lengthError ", function() {
+describe("countError ", function() {
   it("should return the error with error message with the provided lenght", function() {
     let expectedOutput = {
       head: {
@@ -47,11 +47,11 @@ describe("lengthError ", function() {
         "-n": "tail: illegal offset -- 2x"
       }
     };
-    assert.deepEqual(lengthError("2x"), expectedOutput);
+    assert.deepEqual(countError("2x"), expectedOutput);
   });
 });
 
-describe("typeError", function() {
+describe("optionError", function() {
   let expectedOutput = {
     head:
       "head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]",
@@ -59,6 +59,6 @@ describe("typeError", function() {
       "tail: illegal option -- p\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
   };
   it("should return the error message with the provided type ", function() {
-    assert.deepEqual(typeError("-p"), expectedOutput);
+    assert.deepEqual(optionError("-p"), expectedOutput);
   });
 });

@@ -1,9 +1,9 @@
 const { checkAndApply } = require("../util/util");
 const {
-  hasInvalidType,
-  hasInvalidLength,
-  lengthError,
-  typeError } = require("./errorHandler");
+  hasInvalidOption,
+  hasInvalidCount,
+  countError,
+  optionError } = require("./errorHandler");
 const { formatContents } = require("./format");
 
 const utf8Reader = function (reader) {
@@ -13,9 +13,9 @@ const utf8Reader = function (reader) {
 };
 
 const getContents = function(context, count, option, files, isExist, reader) {
-  if (hasInvalidType(option)) return typeError(option)[context];
-  if (hasInvalidLength(count)[context]) return lengthError(count)[context][option];
-  let contents = checkAndApply(isExist, utf8Reader(reader) ,files);
+  if (hasInvalidOption(option)) return optionError(option)[context];
+  if (hasInvalidCount(count)[context]) return countError(count)[context][option];
+  let contents = checkAndApply(isExist, utf8Reader(reader), files);
   contents = fetchContents( getFilterFunction(option), contents, getBounds(count)[context] );
   return formatContents(context, contents, files);
 };
@@ -56,8 +56,8 @@ const fetchContents = function(filterContents, contents, bounds) {
   return contents.map(filterContents.bind(null, bounds));
 };
 
-const getFilterFunction = function(option) {
-  return option == "-c" ? fetchNCharacters : fetchNLines;
+const getFilterFunction = function(op) {
+  return op == "-c" ? fetchNCharacters : fetchNLines;
 };
 
 const getHead = getContents.bind(null, "head");

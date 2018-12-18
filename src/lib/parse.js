@@ -1,30 +1,30 @@
 const { toNumber } = require('../util/util');
 
-const generateDetails = function (files, length, type) {
-  return { files : files, length : toNumber( length ), type : type };
+const generateDetails = function (files, count, option) {
+  return { files : files, count : toNumber( count ), option : option };
 };
 
-const parse = function(details) {
+const parse = function(userInput) {
   //for -5 f1 f1
-  if (isOnlyLengthProvided(details[0])) {
-    return generateDetails( details.slice(1), details[0].slice(1), "-n" );
+  if (isOnlyCountProvided(userInput[0])) {
+    return generateDetails( userInput.slice(1), userInput[0].slice(1), "-n" );
   }
   //for -n 5 f1 f1
-  if (areTypeAndLengthGivenSeparately(details[0])) {
-    return generateDetails( details.slice(2), details[1], details[0] );
+  if (areOptionAndCountGivenSeparately(userInput[0])) {
+    return generateDetails( userInput.slice(2), userInput[1], userInput[0] );
   }
   //for -n5 f1 f1
-  if (areTypeAndLengthGivenTogather(details[0])) {
-    return generateDetails ( details.slice(1), details[0].slice(2), details[0].slice(0, 2) );
+  if (areOptionAndCountGivenTogather(userInput[0])) {
+    return generateDetails ( userInput.slice(1), userInput[0].slice(2), userInput[0].slice(0, 2) );
   }
-  return generateDetails( details.slice(), 10, "-n" );
+  return generateDetails( userInput.slice(), 10, "-n" );
 };
 
-const isOnlyLengthProvided = function(givenData) {
+const isOnlyCountProvided = function(givenData) {
   return givenData.startsWith("-") && givenData[1].match(/[0-9]/);
 };
 
-const areTypeAndLengthGivenSeparately = function(givenData) {
+const areOptionAndCountGivenSeparately = function(givenData) {
   return (
     givenData.startsWith("-") &&
     givenData[1].match(/[A-z]/) &&
@@ -32,7 +32,7 @@ const areTypeAndLengthGivenSeparately = function(givenData) {
   );
 };
 
-const areTypeAndLengthGivenTogather = function(givenData) {
+const areOptionAndCountGivenTogather = function(givenData) {
   return givenData.startsWith("-") && givenData[1].match(/[A-z]/);
 };
 

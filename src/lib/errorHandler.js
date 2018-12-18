@@ -1,44 +1,44 @@
-const hasInvalidLength = function(length) {
+const hasInvalidCount = function(count) {
   return {
-    head: length < 1 || isNaN(length - length),
-    tail: isNaN(length - length)
+    head: count < 1 || isNaN(count - count),
+    tail: isNaN(count - count)
   };
 };
 
-const hasInvalidType = function(type) {
-  return type != "-c" && type != "-n";
+const hasInvalidOption = function(option) {
+  return option != "-c" && option != "-n";
 };
 
-const lengthError = function(length) {
+const countError = function(count) {
   return {
-    head: generateHeadLengthError(length),
-    tail: generateTailLengthError(length)
+    head: generateHeadCountError(count),
+    tail: generateTailCountError(count)
   };
 };
 
-const generateHeadLengthError = function(length) {
+const generateHeadCountError = function(count) {
   return {
-    "-n": "head: illegal line count -- " + length,
-    "-c": "head: illegal byte count -- " + length
+    "-n": "head: illegal line count -- " + count,
+    "-c": "head: illegal byte count -- " + count
   };
 };
 
-const generateTailLengthError = function(length) {
+const generateTailCountError = function(count) {
   return {
-    "-n": "tail: illegal offset -- " + length,
-    "-c": "tail: illegal offset -- " + length
+    "-n": "tail: illegal offset -- " + count,
+    "-c": "tail: illegal offset -- " + count
   };
 };
 
-const typeError = function(type) {
+const optionError = function(option) {
   return {
     head:
       "head: illegal option -- " +
-      type[1] +
+      option[1] +
       "\nusage: head [-n lines | -c bytes] [file ...]",
     tail:
       "tail: illegal option -- " +
-      type[1] +
+      option[1] +
       "\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
   };
 };
@@ -51,9 +51,9 @@ const missingFileError = function(file) {
 };
 
 module.exports = {
-  lengthError,
-  hasInvalidType,
-  hasInvalidLength,
-  typeError,
+  countError,
+  hasInvalidOption,
+  hasInvalidCount,
+  optionError,
   missingFileError
 };

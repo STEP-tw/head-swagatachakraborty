@@ -7,7 +7,7 @@ const applier = (x) => x;
 describe("getHead", function () {
     it("should return error message when invalid type is provided ", function () {
         let expectedOutput = "head: illegal option -- e\nusage: head [-n lines | -c bytes] [file ...]";
-        assert.deepEqual(getHead(2, '-e', [], checker,applier ), expectedOutput);
+        assert.deepEqual(getHead(2, '-e', [], checker, applier), expectedOutput);
     });
     
     it("should return error message when alphanumeric line count is provided", function () {
