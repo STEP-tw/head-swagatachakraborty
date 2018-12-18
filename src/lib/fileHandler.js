@@ -54,16 +54,16 @@ const getFilterFunction = function(option) {
 
 const fetchNLines = fetchUptoCount.bind(null, '\n');
 const fetchNCharacters = fetchUptoCount.bind(null, '');
-const getHead = getContents.bind(null, "head");
-const getTail = getContents.bind(null, "tail");
+const head = getContents.bind(null, "head");
+const tail= getContents.bind(null, "tail");
 
 module.exports = {
   fetchNLines,
   fetchNCharacters,
   fetchContents,
   getFilterFunction,
-  getHead,
+  head,
   getHeadBounds,
   getTailBounds,
-  getTail
+  tail
 };
