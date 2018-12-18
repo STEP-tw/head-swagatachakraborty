@@ -36,30 +36,24 @@ const getTailBounds = function(count) {
   return { lower: -Math.abs(count) };
 };
 
-const fetchNLines = function(bounds, content) {
+const fetchUptoCount= function(delimiter, bounds, content) {
   if (!content) return content;
   return content
-    .split("\n")
+    .split(delimiter)
     .slice(bounds.lower, bounds.upper)
-    .join("\n");
-};
-
-const fetchNCharacters = function(bounds, content) {
-  if (!content) return content;
-  return content
-    .split("")
-    .slice(bounds.lower, bounds.upper)
-    .join("");
+    .join(delimiter);
 };
 
 const fetchContents = function(filterContents, contents, bounds) {
   return contents.map(filterContents.bind(null, bounds));
 };
 
-const getFilterFunction = function(op) {
-  return op == "-c" ? fetchNCharacters : fetchNLines;
+const getFilterFunction = function(option) {
+  return option == "-c" ?  fetchNCharacters : fetchNLines ;
 };
 
+const fetchNLines = fetchUptoCount.bind(null, '\n');
+const fetchNCharacters = fetchUptoCount.bind(null, '');
 const getHead = getContents.bind(null, "head");
 const getTail = getContents.bind(null, "tail");
 
