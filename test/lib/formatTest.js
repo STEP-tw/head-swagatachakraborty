@@ -2,9 +2,9 @@ const assert = require("assert");
 const {
   createHeading,
   addHeading,
-  formatContents
+  formatHead,
+  formatTail
 } = require("../../src/lib/format");
-
 describe("createHeading", function() {
   it("should return heading as file names are provided ", function() {
     let expectedOutput = "==> file1 <==";
@@ -55,34 +55,31 @@ describe("addHeading - will take file names and return a function that will add 
   });
 });
 
-describe("formatContents", function() {
-  it("should return the contens if there is only one file", function() {
-    let files = ["file1"];
-    let contents = ["abcd"];
-    let expectedOutput = contents.join();
-    assert.deepEqual(formatContents("head", contents, files), expectedOutput);
+describe("formatHead", function() {
+  it("should return the content if there is only one existing file", function() {
+    let fileLogs = { file : 'a', content : 'abc', exist : true };
+    let expectedOutput = 'abc';
+    assert.deepEqual( formatHead(fileLogs), expectedOutput );
   });
-
+  
   it("should add headings when there is multiple files", function() {
-    let files = ["file1", "file2"];
-    let contents = ["abcd", "efgh"];
-    let expectedOutput = "==> file1 <==\nabcd\n\n==> file2 <==\nefgh";
-    assert.deepEqual(formatContents("head", contents, files), expectedOutput);
+    let fileLogs = { file : '1', content : '1', exist : false };
+    let expectedOutput = 'head: 1: No such file or directory'
+    assert.deepEqual( formatHead(fileLogs), expectedOutput );
   });
+});
 
-  it("should add headings when there is multiple files and should give error for missing files for head context", function() {
-    let files = ["file1", "file2"];
-    let contents = ["abcd", null];
-    let expectedOutput =
-      "==> file1 <==\nabcd\n\nhead: file2: No such file or directory";
-    assert.deepEqual(formatContents("head", contents, files), expectedOutput);
+describe("formatTail", function() {
+  it("should return the content if there is only one existing file", function() {
+    let fileLogs = { file : 'a', content : 'abc', exist : true };
+    let expectedOutput = 'abc';
+    assert.deepEqual( formatTail(fileLogs), expectedOutput );
   });
-
-  it("should add headings when there is multiple files and should give error for missing files for tail context", function() {
-    let files = ["file1", "file2"];
-    let contents = ["abcd", null];
-    let expectedOutput =
-      "==> file1 <==\nabcd\n\ntail: file2: No such file or directory";
-    assert.deepEqual(formatContents("tail", contents, files), expectedOutput);
+  
+  it("should add headings when there is multiple files", function() {
+    let fileLogs = { file : '1', content : '1', exist : false };
+    let expectedOutput = 'tail: 1: No such file or directory'
+    assert.deepEqual( formatTail(fileLogs), expectedOutput );
   });
+  
 });

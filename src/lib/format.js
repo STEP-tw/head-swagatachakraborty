@@ -12,13 +12,19 @@ const addHeading = function(context, files) {
   };
 };
 
-const formatContents = function(context, contents, files) {
-  if (files.length == 1 && contents[0] != null) return contents.join();
-  return contents.map(addHeading(context, files)).join("\n\n");
+const formatContents = function(context, fileLog) {
+  if ( fileLog.exist ) return fileLog.content;
+  return missingFileError( fileLog.file )[context];
 };
 
+const formatHead = formatContents.bind(null, 'head');
+const formatTail = formatContents.bind(null, 'tail');
+
 module.exports = {
-  formatContents,
+  formatHead,
+  formatTail,
   addHeading,
-  createHeading
+  createHeading,
+  formatHead,
+  formatTail
 };
