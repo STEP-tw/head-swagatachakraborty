@@ -18,25 +18,17 @@ const generateFileLogs = function(context, count, option, files, isExist, reader
   return files.map( getFilelog.bind(null, contentReader, isExist, utf8Reader(reader)) );
 };
 
-const getFilelog = function (getContent, checker, applier, file ) {
-  return generateFileDetails (
-    file,
-    getContent( checkAndApply.bind(null, checker, applier), file ),
-    checker(file)
-  )
-};
-
-const generateFileDetails = function (fileName, content, existStetus) {
+const getFilelog = function (getContent, isExist, reader, file ) {
   return {
-    file : fileName,
-    content : content,
-    exist : existStetus
+    file : file,
+    content : getContent( checkAndApply( isExist, reader, file ) ),
+    exist : isExist(file)
   };
 };
 
 const getContentReader = function ( filterContent, bounds ) {
-  return function (reader, file) {
-    return filterContent( bounds, reader(file) );
+  return function ( content ) {
+    return filterContent( bounds, content );
   };
 };
 
