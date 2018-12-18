@@ -5,15 +5,15 @@ const generateDetails = function (files, count, option) {
 };
 
 const parse = function(userInput) {
-  //for -5 f1 f1
+  //for -5 file1 file2
   if (isOnlyCountProvided(userInput[0])) {
     return generateDetails( userInput.slice(1), userInput[0].slice(1), "-n" );
   }
-  //for -n 5 f1 f1
+  //for -n 5 file1 file2
   if (areOptionAndCountGivenSeparately(userInput[0])) {
     return generateDetails( userInput.slice(2), userInput[1], userInput[0] );
   }
-  //for -n5 f1 f1
+  //for -n5 file1 file2
   if (areOptionAndCountGivenTogather(userInput[0])) {
     return generateDetails ( userInput.slice(1), userInput[0].slice(2), userInput[0].slice(0, 2) );
   }

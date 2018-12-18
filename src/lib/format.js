@@ -6,9 +6,9 @@ const createHeading = function(title) {
 
 const addHeading = function(context, files) {
   let headings = files.slice();
-  return function(body) {
-    if (body == null) return missingFileError(headings.shift())[context];
-    return createHeading(headings.shift()) + "\n" + body;
+  return function(content) {
+    if (content == null) return missingFileError(headings.shift())[context];
+    return createHeading(headings.shift()) + "\n" + content;
   };
 };
 
