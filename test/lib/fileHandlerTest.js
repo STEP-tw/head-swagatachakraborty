@@ -2,7 +2,6 @@ const assert = require('assert');
 const { fetchNLines,
         fetchNCharacters,
         getFilterFunction,
-        fetchContents,
         getHeadBounds,
         getTailBounds } = require('../../src/lib/fileHandler'); 
 
@@ -49,28 +48,6 @@ describe('getFilterFunction', function() {
 
   it('should return fetchNCharacters() when input contain \'-c\'.', function() {
     assert.deepEqual(getFilterFunction('-c'), fetchNCharacters);
-  })
-})
-
-describe('fetchContents', function() {
-  let bounds = { lower : 0, upper : 2 };
-
-  it('should fetching the required lines content from the contents, when fetchNLines is passed. ', function() {
-    let contents = ['abcd\nmnop\nqrst', '123\n456'];
-    let expectedOutput = ['abcd\nmnop', '123\n456']
-    assert.deepEqual(fetchContents(fetchNLines, contents, bounds), expectedOutput);
-  })
-
-  it('should return null if the contents of the file is null. ', function() {
-    let contents = [null];
-    let expectedOutput = [null]
-    assert.deepEqual(fetchContents(fetchNLines, contents, bounds), expectedOutput);
-  })
-
-  it('should fetching the required character content from the contents, when fetchNCharacters is passed. ', function() {
-    let contents = ['abcd\nmnop\nqrst', '123\n456'];
-    let expectedOutput = ['ab', '12']
-    assert.deepEqual(fetchContents(fetchNCharacters, contents, bounds), expectedOutput);
   })
 })
 
