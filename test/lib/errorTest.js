@@ -3,7 +3,9 @@ const {
   hasInvalidCount,
   hasInvalidOption,
   countError,
-  optionError
+  optionError,
+  headInputsValidator,
+  tailInputsValidator
 } = require("../../src/lib/errorHandler");
 
 describe("hasInvalidCount", function() {
@@ -60,5 +62,87 @@ describe("optionError", function() {
   };
   it("should return the error message with the provided type ", function() {
     assert.deepEqual(optionError("-p"), expectedOutput);
+  });
+});
+
+describe('headInputValidator', function(){
+  it('should return the object hasError if there is any unvalid count', function() {
+    let expectedOutput = { 
+      hasError: true, 
+      error: "head: illegal line count -- 2x"
+    };
+    assert.deepEqual(headInputsValidator('-n', '2x'), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is any invalid option', function() {
+    let expectedOutput = { 
+      hasError: true, 
+      error: "head: illegal option -- p\nusage: head [-n lines | -c bytes] [file ...]" 
+    };
+    assert.deepEqual(headInputsValidator('-p', 3), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is any invalid count', function() {
+    let expectedOutput = { 
+      hasError: true, 
+      error: "head: illegal line count -- 2x"
+    };
+    assert.deepEqual(headInputsValidator('-n', '2x'), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is count 0', function() {
+    let expectedOutput = { 
+      hasError: true, 
+      error: "head: illegal line count -- 0"
+    };
+    assert.deepEqual(headInputsValidator('-n', 0), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is negetive count', function() {
+    let expectedOutput = { 
+      hasError: true, 
+      error: "head: illegal line count -- -1"
+    };
+    assert.deepEqual(headInputsValidator('-n', -1), expectedOutput);
+  });
+
+  it('should return the object where hasError is false when there is no error', function() {
+    let expectedOutput = { 
+      hasError: false, 
+    };
+    assert.deepEqual(headInputsValidator('-n', 1), expectedOutput);
+  });
+});
+
+describe('TailInputsValidator', function(){
+  it('should return the object hasError if there is any unvalid count', function() {
+    let expectedOutput = {
+      hasError: true, 
+      error: "tail: illegal offset -- 2x"
+    };
+    assert.deepEqual(tailInputsValidator('-n', '2x'), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is any unvalid option', function() {
+    let expectedOutput = {
+      hasError: true, 
+      error: "tail: illegal option -- p\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
+    };
+    assert.deepEqual(tailInputsValidator('-p', 3), expectedOutput);
+  });
+
+  it('should return the object of error and hasError if there is any unvalid count', function() {
+    let expectedOutput = {
+      hasError: true, 
+      error: "tail: illegal offset -- 2x"
+    };
+    assert.deepEqual(tailInputsValidator('-n', '2x'), expectedOutput);
+  });
+
+  it('should return the object where hasError is false when there is no error', function() {
+    let expectedOutput = { 
+      hasError: false, 
+    };
+    assert.deepEqual(tailInputsValidator('-n', -1), expectedOutput);
   });
 });

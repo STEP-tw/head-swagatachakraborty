@@ -1,9 +1,4 @@
 const { checkAndApply } = require("../util/util");
-const {
-  hasInvalidOption,
-  hasInvalidCount,
-  countError,
-  optionError } = require("./errorHandler");
 
 const utf8Reader = function (reader) {
   return function(element){
@@ -12,8 +7,6 @@ const utf8Reader = function (reader) {
 };
 
 const generateFileLogs = function(context, count, option, files, isExist, reader) {
-  if (hasInvalidOption(option)) return optionError(option)[context];
-  if (hasInvalidCount(count)[context]) return countError(count)[context][option];
   let filter = getContentFilter( getFilterFunction(option), getBounds(count)[context] );
   return files.map( getFilelog.bind(null, filter, isExist, utf8Reader(reader)) );
 };

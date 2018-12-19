@@ -5,46 +5,6 @@ const checker = (x) => !isNaN(x);
 const applier = (x) => x;
 
 describe("head", function () {
-    it("should return error message when invalid type is provided ", function () {
-        let expectedOutput = "head: illegal option -- e\nusage: head [-n lines | -c bytes] [file ...]";
-        assert.deepEqual(head(2, '-e', [], checker, applier), expectedOutput);
-    });
-    
-    it("should return error message when alphanumeric line count is provided", function () {
-        let expectedOutput = 'head: illegal line count -- 2x';
-        assert.deepEqual(head('2x', '-n', [], checker, applier), expectedOutput);
-      });
-
-    it("should return error message when alphanumeric byte count is provided", function () {
-        let expectedOutput = 'head: illegal byte count -- 2x';
-        assert.deepEqual(head('2x', '-c', [], checker, applier), expectedOutput);
-    });
-
-    it("should return error message when alphabetic byte count is provided", function () {
-        let expectedOutput = 'head: illegal byte count -- x';
-        assert.deepEqual(head('x', '-c', [], checker, applier), expectedOutput);
-    });
-
-    it("should return error message when provided byte count is 0", function () {  
-        let expectedOutput = 'head: illegal byte count -- 0';
-        assert.deepEqual(head(0, '-c', [], checker, applier), expectedOutput);
-    });
-
-    it("should return error message when provided line count is 0", function () {  
-        let expectedOutput = 'head: illegal line count -- 0';
-        assert.deepEqual(head(0, '-n', [], checker, applier), expectedOutput);
-    });
-
-    it("should return error message when provided line count is negetive", function () {  
-        let expectedOutput = 'head: illegal line count -- -1';
-        assert.deepEqual(head(-1, '-n', [], checker, applier), expectedOutput);
-    });
-  
-    it("should return error message when provided byte count is negetive", function () {  
-        let expectedOutput = 'head: illegal byte count -- -1';
-        assert.deepEqual(head(-1, '-c', [], checker, applier), expectedOutput);
-    });
-
     it("should return the content when single files are provided", function () {
         let files = ['1'];
         let expectedOutput = [ {file : '1', content : '1', exist : true} ]

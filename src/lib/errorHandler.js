@@ -1,3 +1,9 @@
+const validateInputs = function (context, option, count) {
+  if (hasInvalidOption(option)) return { error : optionError(option)[context], hasError : true };
+  if (hasInvalidCount(count)[context]) return { error : countError(count)[context][option], hasError : true };
+  return { hasError : false };
+};
+
 const hasInvalidCount = function(count) {
   return {
     head: count < 1 || isNaN(count - count),
@@ -50,10 +56,15 @@ const missingFileError = function(file) {
   };
 };
 
+headInputsValidator = validateInputs.bind(null, 'head');
+tailInputsValidator = validateInputs.bind(null, 'tail');
+
 module.exports = {
   countError,
   hasInvalidOption,
   hasInvalidCount,
   optionError,
-  missingFileError
+  missingFileError,
+  headInputsValidator,
+  tailInputsValidator
 };
