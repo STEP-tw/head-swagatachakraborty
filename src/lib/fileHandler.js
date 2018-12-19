@@ -18,10 +18,10 @@ const generateFileLogs = function(context, count, option, files, isExist, reader
   return files.map( getFilelog.bind(null, filter, isExist, utf8Reader(reader)) );
 };
 
-const getFilelog = function (getContent, isExist, reader, file ) {
+const getFilelog = function (filterContent, isExist, reader, file ) {
   return {
     file : file,
-    content : getContent( checkAndApply( isExist, reader, file ) ),
+    content : filterContent( checkAndApply( isExist, reader, file ) ),
     exist : isExist(file)
   };
 };
