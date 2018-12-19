@@ -12,6 +12,10 @@ const addHeading = function(context, files) {
   };
 };
 
+const getContent = function (context, fileLogs) {
+  return fileLogs.map( mapFileContent.bind( null, context ) );
+};
+
 const mapFileContent = function(context, fileLog) {
   if ( fileLog.exist ) return fileLog.content;
   return missingFileError( fileLog.file )[context];
@@ -25,6 +29,7 @@ module.exports = {
   formatTail,
   addHeading,
   createHeading,
+  getContent,
   formatHead,
   formatTail
 };
