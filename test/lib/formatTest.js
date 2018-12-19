@@ -2,7 +2,9 @@ const assert = require("assert");
 const {
   addHeading,
   getContent,
-  format
+  format,
+  formatHead,
+  formatTail
 } = require("../../src/lib/format");
 
 describe("addHeading", function() {
@@ -49,5 +51,73 @@ describe("format", function () {
     let fileLogs = { file: '1', content: '1', exist: false };
     let expectedOutput = 'tail: 1: No such file or directory';
     assert.equal(format('tail', fileLogs), expectedOutput);
+  });
+});
+
+describe('formatHead', function() {
+  it('should give content of file when there is only one existing file', function() {
+    let fileLogs = [ { file : '1', content : '1', exist : true } ];
+    let expectedOutput = '1';
+    assert.equal(formatHead(fileLogs), expectedOutput);
+  });
+
+  it('should give missing file error when missing filelog is provided', function() {
+    let fileLogs = [ { file : '1', content : '1', exist : false } ];
+    let expectedOutput = 'head: 1: No such file or directory'
+    assert.equal(formatHead(fileLogs), expectedOutput);
+  });
+
+  it('should give content with heading when all files in fileLogs exist', function() {
+    let fileLogs = [ 
+      { file : '1', content : '1', exist : true },
+      { file : '2', content : '2', exist : true },
+      { file : '3', content : '3', exist : true } 
+    ];
+    let expectedOutput = '==> 1 <==\n1\n\n==> 2 <==\n2\n\n==> 3 <==\n3';
+    assert.equal(formatHead(fileLogs), expectedOutput);
+  });
+
+  it('should give formated content of files with heading when some file in fileLogs does not exist', function() {
+    let fileLogs = [ 
+      { file : '1', content : '1', exist : true },
+      { file : 'a', content : 'a', exist : false },
+      { file : '3', content : '3', exist : true } 
+    ];
+    let expectedOutput = '==> 1 <==\n1\n\nhead: a: No such file or directory\n\n==> 3 <==\n3';
+    assert.equal(formatHead(fileLogs), expectedOutput);
+  });
+});
+
+describe('formatTail', function() {
+  it('should give content of file when there is only one existing file', function() {
+    let fileLogs = [ { file : '1', content : '1', exist : true } ];
+    let expectedOutput = '1';
+    assert.equal(formatTail(fileLogs), expectedOutput);
+  });
+
+  it('should give missing file error when missing filelog is provided', function() {
+    let fileLogs = [ { file : '1', content : '1', exist : false } ];
+    let expectedOutput = 'tail: 1: No such file or directory';
+    assert.equal(formatTail(fileLogs), expectedOutput);
+  });
+
+  it('should give content with heading when all files in fileLogs exist', function() {
+    let fileLogs = [ 
+      { file : '1', content : '1', exist : true },
+      { file : '2', content : '2', exist : true },
+      { file : '3', content : '3', exist : true } 
+    ];
+    let expectedOutput = '==> 1 <==\n1\n\n==> 2 <==\n2\n\n==> 3 <==\n3';
+    assert.equal(formatTail(fileLogs), expectedOutput);
+  });
+
+  it('should give formated content of files with heading when some file in fileLogs does not exist', function() {
+    let fileLogs = [ 
+      { file : '1', content : '1', exist : true },
+      { file : 'a', content : 'a', exist : false },
+      { file : '3', content : '3', exist : true } 
+    ];
+    let expectedOutput = '==> 1 <==\n1\n\ntail: a: No such file or directory\n\n==> 3 <==\n3';
+    assert.equal(formatTail(fileLogs), expectedOutput);
   });
 });
