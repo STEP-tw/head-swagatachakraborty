@@ -1,7 +1,7 @@
 const { missingFileError } = require("./errorHandler");
 
-const addHeading = function( fileLog ) {
-  return "==> " + fileLog.file + " <==\n" + fileLog.content;
+const addHeading = function(title, content) {
+  return "==> " + title + " <==\n" + content;
 };
 
 const getContent = function (context, fileLogs) {

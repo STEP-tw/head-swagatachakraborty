@@ -7,10 +7,9 @@ const {
 } = require("../../src/lib/format");
 
 describe("addHeading", function() {
-  it("should add heading of file name to the content when file log is provided", function () {
-    let fileLog = {file : '1', content : '1', exist : true};
-    let expectedOutput = "==> 1 <==\n1";
-    assert.equal( addHeading(fileLog), expectedOutput );
+  it("should add heading to the content when title and content is provided", function () {
+    let expectedOutput = "==> name <==\ncontent";
+    assert.equal( addHeading('name', 'content'), expectedOutput );
   });
 });
 
