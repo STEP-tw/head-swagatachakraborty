@@ -1,8 +1,7 @@
 const assert = require("assert");
 const {
   addHeading,
-  formatHead,
-  formatTail,
+  getContent,
   format
 } = require("../../src/lib/format");
 
@@ -13,33 +12,24 @@ describe("addHeading", function() {
   });
 });
 
-describe("formatHead", function() {
+describe("getContent", function() {
   it("should return the content if there is only one existing file", function() {
     let fileLogs = { file : 'a', content : 'abc', exist : true };
     let expectedOutput = 'abc';
-    assert.deepEqual( formatHead(fileLogs), expectedOutput );
+    assert.deepEqual( getContent('head', fileLogs), expectedOutput );
   });
   
-  it("should add headings when there is multiple files", function() {
+  it("should return error if there is missing file, for context - head", function() {
     let fileLogs = { file : '1', content : '1', exist : false };
     let expectedOutput = 'head: 1: No such file or directory'
-    assert.deepEqual( formatHead(fileLogs), expectedOutput );
+    assert.deepEqual( getContent('head', fileLogs), expectedOutput );
   });
-});
 
-describe("formatTail", function() {
-  it("should return the content if there is only one existing file", function() {
+  it("should return error if there is missing file, for context - tail", function() {
     let fileLogs = { file : 'a', content : 'abc', exist : true };
     let expectedOutput = 'abc';
-    assert.deepEqual( formatTail(fileLogs), expectedOutput );
+    assert.deepEqual( getContent('tail', fileLogs), expectedOutput );
   });
-  
-  it("should add headings when there is multiple files", function() {
-    let fileLogs = { file : '1', content : '1', exist : false };
-    let expectedOutput = 'tail: 1: No such file or directory'
-    assert.deepEqual( formatTail(fileLogs), expectedOutput );
-  });
-  
 });
 
 describe("format", function () {

@@ -5,23 +5,17 @@ const addHeading = function(title, content) {
 };
 
 const format = function (context, fileLog) {
-  if(fileLog.exist) return addHeading(fileLog.file,  mapFileContent(context, fileLog) );
-  return mapFileContent(context, fileLog);
+  if(fileLog.exist) return addHeading(fileLog.file,  getContent(context, fileLog) );
+  return getContent(context, fileLog);
 };
 
-const mapFileContent = function(context, fileLog) {
+const getContent = function(context, fileLog) {
   if ( fileLog.exist ) return fileLog.content;
   return missingFileError( fileLog.file )[context];
 };
 
-const formatHead = mapFileContent.bind(null, 'head');
-const formatTail = mapFileContent.bind(null, 'tail');
-
 module.exports = {
-  formatHead,
-  formatTail,
+  getContent,
   addHeading,
-  format,
-  formatHead,
-  formatTail
+  format
 };
