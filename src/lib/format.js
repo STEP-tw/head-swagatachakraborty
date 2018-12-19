@@ -4,8 +4,9 @@ const addHeading = function(title, content) {
   return "==> " + title + " <==\n" + content;
 };
 
-const getContent = function (context, fileLogs) {
-  return fileLogs.map( mapFileContent.bind( null, context ) );
+const format = function (context, fileLog) {
+  if(fileLog.exist) return addHeading(fileLog.file,  mapFileContent(context, fileLog) );
+  return mapFileContent(context, fileLog);
 };
 
 const mapFileContent = function(context, fileLog) {
@@ -20,7 +21,7 @@ module.exports = {
   formatHead,
   formatTail,
   addHeading,
-  getContent,
+  format,
   formatHead,
   formatTail
 };
