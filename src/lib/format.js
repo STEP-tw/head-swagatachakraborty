@@ -1,15 +1,7 @@
 const { missingFileError } = require("./errorHandler");
 
-const createHeading = function(title) {
-  return "==> " + title + " <==";
-};
-
-const addHeading = function(context, files) {
-  let headings = files.slice();
-  return function(content) {
-    if (content == null) return missingFileError(headings.shift())[context];
-    return createHeading(headings.shift()) + "\n" + content;
-  };
+const addHeading = function( fileLog ) {
+  return "==> " + fileLog.file + " <==\n" + fileLog.content;
 };
 
 const getContent = function (context, fileLogs) {
@@ -28,7 +20,6 @@ module.exports = {
   formatHead,
   formatTail,
   addHeading,
-  createHeading,
   getContent,
   formatHead,
   formatTail
