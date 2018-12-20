@@ -50,17 +50,17 @@ const fetchUptoCount= function(delimiter, bounds, content) {
 };
 
 const getFilterFunction = function(option) {
-  return option == "-c" ?  fetchNCharacters : fetchNLines ;
+  return option == "-c" ?  fetchNBytes : fetchNLines ;
 };
 
 const fetchNLines = fetchUptoCount.bind(null, '\n');
-const fetchNCharacters = fetchUptoCount.bind(null, '');
+const fetchNBytes = fetchUptoCount.bind(null, '');
 const head = generateFileLogs.bind(null, "head");
 const tail = generateFileLogs.bind(null, "tail");
 
 module.exports = {
   fetchNLines,
-  fetchNCharacters,
+  fetchNBytes,
   getFilterFunction,
   head,
   getHeadBounds,

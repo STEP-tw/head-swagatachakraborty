@@ -1,6 +1,6 @@
 const assert = require('assert');
 const { fetchNLines,
-        fetchNCharacters,
+        fetchNBytes,
         getFilterFunction,
         getHeadBounds,
         getTailBounds } = require('../../src/lib/fileHandler'); 
@@ -19,25 +19,25 @@ describe('fetchNLines', function() {
   })
 })
 
-describe('fetchNCharacters', function() {
+describe('fetchNBytes', function() {
   let content = 'abcd\ndef\nghi\njkl';
  
   it('should return empty string if the number of character to fetch is 0.', function() {
-    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 0 }, content), '');
+    assert.deepEqual(fetchNBytes({ lower : 0, upper : 0 }, content), '');
   })
 
   it('should return null if the content of the file is null .', function() {
-    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 2 }, null), null);
+    assert.deepEqual(fetchNBytes({ lower : 0, upper : 2 }, null), null);
   })
 
   it('should return content of provided number of characters', function() {
     let expectedOutput = 'abc';
-    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 3 }, content), expectedOutput);
+    assert.deepEqual(fetchNBytes({ lower : 0, upper : 3 }, content), expectedOutput);
   })
 
   it('should return content of provided number of characters, it consider \'\\n\' as a new character.', function() {
     let expectedOutput = 'abcd\nd';
-    assert.deepEqual(fetchNCharacters({ lower : 0, upper : 6 }, content), expectedOutput);
+    assert.deepEqual(fetchNBytes({ lower : 0, upper : 6 }, content), expectedOutput);
   })
 })
 
@@ -46,8 +46,8 @@ describe('getFilterFunction', function() {
     assert.deepEqual(getFilterFunction('-n4'), fetchNLines);
   })
 
-  it('should return fetchNCharacters() when input contain \'-c\'.', function() {
-    assert.deepEqual(getFilterFunction('-c'), fetchNCharacters);
+  it('should return fetchNBytes() when input contain \'-c\'.', function() {
+    assert.deepEqual(getFilterFunction('-c'), fetchNBytes);
   })
 })
 
