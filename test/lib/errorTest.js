@@ -28,8 +28,8 @@ describe("hasInvalidCount", function() {
 
 describe("hasInvalidOption", function() {
   it("should return false if the type is '-n' or '-c'.", function() {
-    assert.deepEqual(hasInvalidOption("-n"), false);
-    assert.deepEqual(hasInvalidOption("-c"), false);
+    assert.deepEqual(hasInvalidOption("line"), false);
+    assert.deepEqual(hasInvalidOption("byte"), false);
   });
 
   it("should return true if the type is not '-n' or '-c'.", function() {
@@ -41,12 +41,12 @@ describe("countError ", function() {
   it("should return the error with error message with the provided lenght", function() {
     let expectedOutput = {
       head: {
-        "-n": "head: illegal line count -- 2x",
-        "-c": "head: illegal byte count -- 2x"
+        "line": "head: illegal line count -- 2x",
+        "byte": "head: illegal byte count -- 2x"
       },
       tail: {
-        "-c": "tail: illegal offset -- 2x",
-        "-n": "tail: illegal offset -- 2x"
+        "byte": "tail: illegal offset -- 2x",
+        "line": "tail: illegal offset -- 2x"
       }
     };
     assert.deepEqual(countError("2x"), expectedOutput);
@@ -71,7 +71,7 @@ describe('headInputValidator', function(){
       hasError: true, 
       error: "head: illegal line count -- 2x"
     };
-    assert.deepEqual(headInputsValidator('-n', '2x'), expectedOutput);
+    assert.deepEqual(headInputsValidator('line', '2x'), expectedOutput);
   });
 
   it('should return the object of error and hasError if there is any invalid option', function() {
@@ -87,7 +87,7 @@ describe('headInputValidator', function(){
       hasError: true, 
       error: "head: illegal line count -- 2x"
     };
-    assert.deepEqual(headInputsValidator('-n', '2x'), expectedOutput);
+    assert.deepEqual(headInputsValidator('line', '2x'), expectedOutput);
   });
 
   it('should return the object of error and hasError if there is count 0', function() {
@@ -95,7 +95,7 @@ describe('headInputValidator', function(){
       hasError: true, 
       error: "head: illegal line count -- 0"
     };
-    assert.deepEqual(headInputsValidator('-n', 0), expectedOutput);
+    assert.deepEqual(headInputsValidator('line', 0), expectedOutput);
   });
 
   it('should return the object of error and hasError if there is negetive count', function() {
@@ -103,14 +103,14 @@ describe('headInputValidator', function(){
       hasError: true, 
       error: "head: illegal line count -- -1"
     };
-    assert.deepEqual(headInputsValidator('-n', -1), expectedOutput);
+    assert.deepEqual(headInputsValidator('line', -1), expectedOutput);
   });
 
   it('should return the object where hasError is false when there is no error', function() {
     let expectedOutput = { 
       hasError: false, 
     };
-    assert.deepEqual(headInputsValidator('-n', 1), expectedOutput);
+    assert.deepEqual(headInputsValidator('line', 1), expectedOutput);
   });
 });
 
@@ -120,7 +120,7 @@ describe('TailInputsValidator', function(){
       hasError: true, 
       error: "tail: illegal offset -- 2x"
     };
-    assert.deepEqual(tailInputsValidator('-n', '2x'), expectedOutput);
+    assert.deepEqual(tailInputsValidator('line', '2x'), expectedOutput);
   });
 
   it('should return the object of error and hasError if there is any unvalid option', function() {
@@ -136,13 +136,13 @@ describe('TailInputsValidator', function(){
       hasError: true, 
       error: "tail: illegal offset -- 2x"
     };
-    assert.deepEqual(tailInputsValidator('-n', '2x'), expectedOutput);
+    assert.deepEqual(tailInputsValidator('line', '2x'), expectedOutput);
   });
 
   it('should return the object where hasError is false when there is no error', function() {
     let expectedOutput = { 
-      hasError: false, 
+      hasError: false
     };
-    assert.deepEqual(tailInputsValidator('-n', -1), expectedOutput);
+    assert.deepEqual(tailInputsValidator('line', -1), expectedOutput);
   });
 });

@@ -12,7 +12,7 @@ const hasInvalidCount = function(count) {
 };
 
 const hasInvalidOption = function(option) {
-  return option != "-c" && option != "-n";
+  return option != "byte" && option != "line";
 };
 
 const countError = function(count) {
@@ -24,15 +24,15 @@ const countError = function(count) {
 
 const generateHeadCountError = function(count) {
   return {
-    "-n": "head: illegal line count -- " + count,
-    "-c": "head: illegal byte count -- " + count
+    "line": "head: illegal line count -- " + count,
+    "byte": "head: illegal byte count -- " + count
   };
 };
 
 const generateTailCountError = function(count) {
   return {
-    "-n": "tail: illegal offset -- " + count,
-    "-c": "tail: illegal offset -- " + count
+    "line": "tail: illegal offset -- " + count,
+    "byte": "tail: illegal offset -- " + count
   };
 };
 

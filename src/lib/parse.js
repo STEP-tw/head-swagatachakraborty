@@ -1,7 +1,13 @@
 const { toNumber } = require('../util/util');
 
-const generateDetails = function (files, count, option) {
-  return { files : files, count : toNumber( count ), option : option };
+const generateDetails = function (files, count, optionArg) {
+  return { files : files, count : toNumber( count ), option : extractOption(optionArg) };
+};
+
+const extractOption = function (optionArg) {
+  if(optionArg == '-n') return 'line';
+  if(optionArg == '-c') return 'byte';
+  return optionArg;
 };
 
 const parse = function(userInput) {
