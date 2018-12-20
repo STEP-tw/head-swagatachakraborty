@@ -1,0 +1,27 @@
+{
+  "name": "head-tail",
+  "version": "0.0.1",
+  "description": "it gives same functionality as inbuid head and tail",
+  "main": "head.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --recursive",
+    "start": "node head.js README.md",
+    "runScript": "./scripts/runHead.sh; ./scripts/runTail.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/head-swagatachakraborty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/head-swagatachakraborty/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/head-swagatachakraborty#readme",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}

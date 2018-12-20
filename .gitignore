@@ -1,7 +1,6 @@
-*.json
-.*json
 .*swp
 .*swo
 .*swm
 .nyc_output
 coverage
+node_modules
