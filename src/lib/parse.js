@@ -1,10 +1,10 @@
 const { toNumber } = require('../util/util');
 
 const generateDetails = function (files, count, optionArg) {
-  return { files : files, count : toNumber( count ), option : extractOption(optionArg) };
+  return { files : files, count : toNumber( count ), option : determineOption(optionArg) };
 };
 
-const extractOption = function (optionArg) {
+const determineOption = function (optionArg) {
   if(optionArg == '-n') return 'line';
   if(optionArg == '-c') return 'byte';
   return optionArg;
@@ -42,4 +42,4 @@ const areOptionAndCountGivenTogather = function(givenData) {
   return givenData.startsWith("-") && givenData[1].match(/[A-z]/);
 };
 
-module.exports = { parse };
+module.exports = { parse, determineOption };

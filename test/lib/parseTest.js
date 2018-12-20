@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parse } = require('../../src/lib/parse');
+const { parse, determineOption } = require('../../src/lib/parse');
 
 describe("parse return object of all required details from the provided input array.", function() {
   it("should return object of details when the user input is [ -n, 5, f1, f2 ] ", function() {
@@ -78,5 +78,19 @@ describe("parse return object of all required details from the provided input ar
     let input = ["-px", "f1", "f2"];
     let expectedOutput = { option: "-p", count: "x", files: ["f1", "f2"] };
     assert.deepEqual(parse(input), expectedOutput);
+  });
+});
+
+describe('determineOption', function(){
+  it('should return line if the option is -n ', function(){
+    assert.equal( determineOption('-n'), 'line' );
+  });
+
+  it('should return byte if the option is -c ', function(){
+    assert.equal( determineOption('-c'), 'byte' );
+  });
+
+  it('should return back the option given if it is neither -n nor -c ', function(){
+    assert.equal( determineOption('-p'), '-p' );
   });
 });
