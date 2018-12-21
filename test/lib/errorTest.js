@@ -28,12 +28,12 @@ describe("hasInvalidCount", function() {
 
 describe("hasInvalidOption", function() {
   it("should return false if the type is '-n' or '-c'.", function() {
-    assert.deepEqual(hasInvalidOption("line"), false);
-    assert.deepEqual(hasInvalidOption("byte"), false);
+    assert.equal(hasInvalidOption("line"), false);
+    assert.equal(hasInvalidOption("byte"), false);
   });
 
   it("should return true if the type is not '-n' or '-c'.", function() {
-    assert.deepEqual(hasInvalidOption("-p"), true);
+    assert.equal(hasInvalidOption("-p"), true);
   });
 });
 
