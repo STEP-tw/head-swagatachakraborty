@@ -1,9 +1,9 @@
 const assert = require('assert');
 const { fetchNLines,
-        fetchNBytes,
-        getFilterFunction,
-        getHeadBounds,
-        getTailBounds } = require('../../src/lib/fileHandler'); 
+  fetchNBytes,
+  getFilterFunction,
+  getHeadBounds,
+  getTailBounds } = require('../../src/lib/fileHandler'); 
 
 
 describe('fetchNLines', function() {
@@ -43,11 +43,15 @@ describe('fetchNBytes', function() {
 
 describe('getFilterFunction', function() {
   it('should return fetchNLines() when input contain \'-n\'.', function() {
-    assert.deepEqual(getFilterFunction('-n4'), fetchNLines);
+    assert.deepEqual(getFilterFunction('line'), fetchNLines);
   })
 
   it('should return fetchNBytes() when input contain \'-c\'.', function() {
-    assert.deepEqual(getFilterFunction('-c'), fetchNBytes);
+    assert.deepEqual(getFilterFunction('byte'), fetchNBytes);
+  })
+
+  it('should return fetchNBytes() when input contain \'-c\'.', function() {
+    assert.deepEqual(getFilterFunction('-p'), fetchNLines);
   })
 })
 

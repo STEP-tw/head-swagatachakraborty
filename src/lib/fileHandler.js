@@ -50,7 +50,7 @@ const fetchUptoCount= function(delimiter, bounds, content) {
 };
 
 const getFilterFunction = function(option) {
-  return option == "-c" ?  fetchNBytes : fetchNLines ;
+  return option == "byte" ?  fetchNBytes : fetchNLines ;
 };
 
 const fetchNLines = fetchUptoCount.bind(null, '\n');
